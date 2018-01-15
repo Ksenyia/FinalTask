@@ -1,0 +1,236 @@
+@font-face { 
+	font-family: Nautilus;    
+	src: url(fonts/Nautilus.otf);
+} 
+body{
+	background-image: url(img/fon2.jfif);
+}
+footer, nav, header, section, aside { 
+display: block
+}
+.navig:visited{
+	color:red;
+	padding: 16px;
+    font-size: 16px;
+}
+.navig a:link{
+	color:white;
+}
+.dropbtn {
+    background-image: url(img/fon3.jfif);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+h1,h2 {
+	font-family: Nautilus, Nautilus;
+}
+header{
+    padding: 1em;
+    color: white;
+	background-image: url(img/fon3.jfif);
+    clear: left;
+    text-align: center;
+}
+footer {
+    padding: 1em;
+    color: white;
+    clear: left;
+	background-image: url(img/fon3.jfif);
+    text-align: center;
+	position: relative;
+	bottom: 0;
+}
+a:hover {
+   font-size: 18px;
+}
+nav {
+    margin: 0;
+    padding: 1em;
+} 
+aside {
+    padding: 10px;
+    width: 20%;
+	color: white;
+	background-image: url(img/fon3.jfif);
+	position: absolute;
+	right: 0;
+   }
+article {
+	width: 75%;
+    padding: 1em;
+	margin-left: 20px;
+}
+table{
+	position: relative;
+	text-align:center;
+	border-collapse: collapse;
+    width: 100%;
+}
+tr:hover {background-color: #f5f5f5;}
+th, td {
+    padding: 15px;
+    text-align: left;
+}
+.pagination {
+    display: inline-block;
+}
+
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: 1px solid #ddd;
+}
+
+.pagination a.active {
+    background-image: url(img/fon3.jfif);
+    color: white;
+    border: 1px solid #4CAF50;
+}
+
+.pagination a:hover:not(.active) {
+	background-color: #ddd;
+	
+}
+
+.pagination a:first-child {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.pagination a:last-child {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+input[type=text], input[type=email], input[type=password], input[type=number] {
+    width: 80px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    padding: 8px 8px 8px 8px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
+    width: 80%;
+}
+input[type=image]:hover {
+    opacity: 1;
+}
+.ratings:before {
+    content: "Оценить";
+}
+div.ratings form{
+ display: inline;
+}
+.ratings-form{
+ display: inline-block;
+}
+span[data-descr] {
+	position: relative;
+	text-decoration: underline;
+	color: #00F;
+	cursor: help;
+}
+button, input[type=button], input[type=submit], input[type=reset] {
+    background-image: url(img/fon2.jfif);
+    border: none;
+	border-radius: 4px;
+    padding: 10px 10px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+span[data-descr]:hover::after {
+	content: attr(data-descr);
+	position: absolute;
+	left: 0;
+	top: 24px;
+	min-width: 24px;
+	border: 1px #aaaaaa solid;
+	border-radius: 10px;
+	background-color: #ffffcc;
+	padding: 12px;
+	color: #000000;
+	font-size: 14px;
+	z-index: 1;
+	text-align:center;
+}
+input[type=image] { 
+    opacity: 0.65;
+}
+select {
+    padding: 8px 8px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f1f1f1;
+}
+#animation {
+    width: 150px;
+    height: auto;
+	float:left;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 15s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+    0%   {opacity:1;}
+    25%  {opacity:0.5;}
+    50%  {opacity:0;}
+    75%  {opacity:0.5;}
+    100% {opacity:1;}
+}
+
+/* Standard syntax */
+@keyframes example {
+    0%   {opacity:1;}
+    25%  {opacity:0.5;}
+    50%  {opacity:0;}
+    75%  {opacity:0.5;}
+    100% {opacity:1;}
+}

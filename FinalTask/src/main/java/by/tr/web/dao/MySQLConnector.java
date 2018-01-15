@@ -9,7 +9,7 @@ import java.sql.Statement;
 
 public class MySQLConnector {
 	
-	private static String connection = "jdbc:mysql://127.0.0.1/epamt3";
+	private static String connection = "jdbc:mysql://127.0.0.1/movie_rating?useSSL=true";
 	private static String user = "root";
 	private static String password = "password";
 	private static String className = "org.gjt.mm.mysql.Driver";

@@ -1,15 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
-    pageEncoding="utf-8"%>
+	pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>Index</title>
+</head>
 <body>
-<hr/>
-<form action="Controller" method = "post">
-	<input type = "hidden" name = "command" value = "login" /><br/>login:
-	<input type = "text" name = "login" value = "" /><br/>password:
-	<input type = "text" name = "password" value = "" /><br/>
-	<input type="submit" name = "login" value="login"/>
-	<input type="submit" name = "register" value="Register"/><br/>
-</form>
+	<jsp:forward page="login.jsp" />
 </body>
-</html>
-

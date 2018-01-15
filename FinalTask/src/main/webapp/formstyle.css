@@ -1,0 +1,164 @@
+@font-face { 
+	font-family: Nautilus;    
+	src: url(fonts/Nautilus.otf);
+} 
+body{
+	background-image: url(img/fon2.jfif);
+}
+footer, nav, header, section, aside { 
+display: block
+}
+.navig:visited{
+	color:red;
+	padding: 16px;
+    font-size: 16px;
+}
+.navig a:link{
+	color:white;
+}
+.dropbtn {
+    background-image: url(img/fon3.jfif);
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {
+	background-color: #f1f1f1
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #3e8e41;
+}
+h1,h2 {
+	font-family: Nautilus, Nautilus;
+}
+header{
+    padding: 1em;
+    color: white;
+	background-image: url(img/fon3.jfif);
+    clear: left;
+    text-align: center;
+}
+footer {
+    padding: 1em;
+    color: white;
+    clear: left;
+	background-image: url(img/fon3.jfif);
+    text-align: center;
+	position: relative;
+	bottom: 0;
+}
+a:hover {
+   font-size: 18px;
+}
+nav {
+    margin: 0;
+    padding: 1em;
+} 
+aside {
+    padding: 10px;
+    width: 20%;
+	color: white;
+	background-image: url(img/fon3.jfif);
+	position: absolute;
+	right: 0;
+   }
+article {
+	width: 75%;
+    padding: 1em;
+	margin-left: 20px;
+}
+input[type=text], input[type=email], input[type=password], input[type=number] {
+    width: 80px;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    background-color: white;
+    padding: 8px 8px 8px 8px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus, input[type=email]:focus, input[type=password]:focus {
+    width: 80%;
+}
+button, input[type=button], input[type=submit], input[type=reset] {
+    background-image: url(img/fon3.jfif);
+    border: none;
+	color:white;
+	border-radius: 4px;
+    padding: 10px 10px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+#animation {
+    width: 150px;
+    height: auto;
+	float:left;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 15s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+}
+
+#animation2 {
+    width: 150px;
+    height: auto;
+	float:right;
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 15s; /* Safari 4.0 - 8.0 */
+    -webkit-animation-iteration-count: infinite; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 15s;
+    animation-iteration-count: infinite;
+}
+
+/* Safari 4.0 - 8.0 */
+@-webkit-keyframes example {
+    0%   {opacity:1;}
+    25%  {opacity:0.5;}
+    50%  {opacity:0;}
+    75%  {opacity:0.5;}
+    100% {opacity:1;}
+}
+
+/* Standard syntax */
+@keyframes example {
+    0%   {opacity:1;}
+    25%  {opacity:0.5;}
+    50%  {opacity:0;}
+    75%  {opacity:0.5;}
+    100% {opacity:1;}
+}

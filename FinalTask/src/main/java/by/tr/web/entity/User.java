@@ -75,13 +75,13 @@ public class User implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	@Override
+	
 	public String toString() {
 		return "User [id=" + id + ", login=" + login + ", password=" + password + ", email=" + email + ", adminFlag="
 				+ adminFlag + ", accessFlag=" + accessFlag + ", status=" + status + ", surname=" + surname + ", name="
 				+ name + "]";
 	}
-	@Override
+	
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
@@ -96,7 +96,7 @@ public class User implements Serializable {
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		return result;
 	}
-	@Override
+	
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;

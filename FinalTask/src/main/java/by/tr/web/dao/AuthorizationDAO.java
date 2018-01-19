@@ -1,8 +1,5 @@
 package by.tr.web.dao;
 
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -25,14 +22,12 @@ public class AuthorizationDAO {
 	public AuthorizationDAO() {
 		
 	}
-	public static User login(String login, String password){
+	public User login(String login, String passHashed){
 		PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
-	    String passHashed = passwordHash(password);
-		Connection connection;
-        ConnectionPool pool = ConnectionPool.getInstance();
         try {
-			connection = pool.takeConnection();
+			ConnectionPool pool = ConnectionPool.getInstance();
+			Connection connection = pool.takeConnection();
 		    preparedStatement = connection.prepareStatement(SELECT_FROM_USERS);
 		    rs = preparedStatement.executeQuery();
 			while(rs.next()) {
@@ -76,28 +71,5 @@ public class AuthorizationDAO {
 		return user;
 	}
 
-  public static String passwordHash(String password)  {
-	  try{
-	      try {
-	         // String passwordWithSalt = password + Constants.PASSWORD_SALT;
-	          String passwordWithSalt = password;
-	          MessageDigest md = MessageDigest.getInstance("SHA-256");
-	          md.update(passwordWithSalt.getBytes("UTF-8"));
-	          byte[] digest = md.digest();
-	          StringBuilder sb = new StringBuilder();
-	          for (byte aDigest : digest) {
-	              sb.append(Integer.toHexString(0xff & aDigest));
-	          }
-	          return sb.toString();
-	      } catch (NoSuchAlgorithmException e) {
-	    	  
-	      }
-      
-	  }
-	  catch (UnsupportedEncodingException e) {
-    	  
-      }
-      return null;
-  }
 
 }

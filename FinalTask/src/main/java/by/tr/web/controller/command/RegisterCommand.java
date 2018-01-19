@@ -1,6 +1,5 @@
 package by.tr.web.controller.command;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,31 +14,31 @@ import by.tr.web.entity.User;
 
 public class RegisterCommand implements ActionCommand {
 
+	private static final String PASSWORD = "pwd1";
+	private static final String LOGIN = "usrname";
+	private static final String EMAIL = "email";
+	private static final String USER = "user";
+	private static final String LOCAL = "local";
+	private static final String PATH_PAGE_MAIN = "path.page.main";
+
 	public String execute(HttpServletRequest request) {
 		
-		//System.out.println("locale"+session.getAttribute("local"));
 		String page = null;	
 		HttpSession session = request.getSession(true);
-		String login = request.getParameter("usrname");
-		String password = request.getParameter("pwd1");
-		String email = request.getParameter("email");
+		String login = request.getParameter(LOGIN);
+		String password = request.getParameter(PASSWORD);
+		String email = request.getParameter(EMAIL);
 		User user = new User();
 		List<Movie> movies = null;
-		System.out.println(" 11"+login);
-		System.out.println(login+"," +email+"," +password);
-		user = RegistrationDAO.logon(login, email, password);
-		session.setAttribute("user", user);
-		try {
-			String language = (String) session.getAttribute("local");
-			movies = MovieCatalogDAO.getMovies(language);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		Object obj = movies;
-		System.out.println(obj.toString());
+		RegistrationDAO registrationDAO = new RegistrationDAO();
+		user = registrationDAO.register(login, email, password);
+		session.setAttribute(USER, user);
+		String language = (String) session.getAttribute(LOCAL);
+		MovieCatalogDAO catalogDAO = new MovieCatalogDAO();
+		movies = catalogDAO.getMovies(language);
 		String sessionAttribute = "movies"; 
-	    session.setAttribute(sessionAttribute, obj);
-		page = ConfigurationManager.getProperty("path.page.main");
+	    session.setAttribute(sessionAttribute, movies);
+		page = ConfigurationManager.getProperty(PATH_PAGE_MAIN);
 		return page;
 		
 	}

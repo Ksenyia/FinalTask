@@ -11,14 +11,10 @@ public class SessionRequestContent {
 	public SessionRequestContent(){
 		
 	}
-	// метод извлечения информации из запроса
 	public void extractValues(HttpServletRequest request) {
-	// реализация
-		// request.
+	
 	}
-	// метод добавления в запрос данных для передачи в jsp
 	public void insertAttributes(HttpServletRequest request) {
-	// реализация
+	
 	}
-	// some methods
 }

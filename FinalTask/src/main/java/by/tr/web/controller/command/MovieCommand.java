@@ -7,10 +7,12 @@ import by.tr.web.controller.ConfigurationManager;
 
 public class MovieCommand implements ActionCommand {
 
+	private static final String MOVIE_ID = "movieId";
+	private static final String PATH_PAGE_MOVIE = "path.page.movie";
+
 	public String execute(HttpServletRequest request) {
-		String page = ConfigurationManager.getProperty("path.page.movie");
-		int idMovie =Integer.parseInt(request.getParameter("movieId"));
-		System.out.println(idMovie);
+		String page = ConfigurationManager.getProperty(PATH_PAGE_MOVIE);
+		int idMovie =Integer.parseInt(request.getParameter(MOVIE_ID));
 		return page;
 	}
 

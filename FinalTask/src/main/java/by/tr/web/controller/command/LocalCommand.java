@@ -8,18 +8,20 @@ import by.tr.web.controller.ConfigurationManager;
 
 public class LocalCommand implements ActionCommand {
 
+	private static final String PATH_PAGE_LOGIN = "path.page.login";
+	private static final String DEFAULT_LANGUGE = "ru";
+	private static final String LOCAL = "local";
+
 	public String execute(HttpServletRequest request) {
 		String page = null;
-		String  local = request.getParameter("local");
+		String  local = request.getParameter(LOCAL);
 		HttpSession session = request.getSession(true);
-		if(session.getAttribute("local")==null){
-			session.setAttribute("local", "ru");
+		if(session.getAttribute(LOCAL)==null){
+			session.setAttribute(LOCAL, DEFAULT_LANGUGE);
 		}
-		System.out.println("locale def/old "+session .getAttribute("local"));
 		if(local!=null){
-			session.setAttribute("local", local);
-			page = ConfigurationManager.getProperty("path.page.login");
-			System.out.println("locale new"+session.getAttribute("local"));
+			session.setAttribute(LOCAL, local);
+			page = ConfigurationManager.getProperty(PATH_PAGE_LOGIN);
 		}
 		return page;
 	}

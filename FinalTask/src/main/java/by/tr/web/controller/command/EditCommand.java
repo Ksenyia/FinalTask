@@ -7,16 +7,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
-import by.tr.web.dao.AccsessDAO;
-import by.tr.web.dao.StatusDAO;
+import by.tr.web.service.UsersService;
 
 public class EditCommand implements ActionCommand {
 
+	private static final String STATUS = "status";
+	private static final String ACCESS = "access";
+	private static final String PATH_PAGE_MAIN = "path.page.main";
+
 	public String execute(HttpServletRequest request) {
-		String page  = ConfigurationManager.getProperty("path.page.main");
+		String page  = ConfigurationManager.getProperty(PATH_PAGE_MAIN);
 		request.getParameterNames();
-		System.out.println(request.getParameter("user"));
-		System.out.println(request.getParameter("access"));
 		Enumeration<String> en = request.getParameterNames();
 		Integer userId = null;
 		Integer status = null;
@@ -26,21 +27,22 @@ public class EditCommand implements ActionCommand {
 		while (en.hasMoreElements()) {
 			String string = (String) en.nextElement();
 			String value = request.getParameter(string);
-			System.out.println("name: "+string+" value: "+request.getParameter(string));
-			String st[] = string.split("#");
-			if("access".equals(st[0])){
+			String separator = "#";
+			String st[] = string.split(separator);
+			if(ACCESS.equals(st[0])){
 				accessFlag = Boolean.parseBoolean(value);
 				userId = Integer.parseInt(st[1]);
 				accesses.put(userId, accessFlag);
 			}
-			if("status".equals(st[0])){
+			if(STATUS.equals(st[0])){
 				userId = Integer.parseInt(st[1]);
 				status = Integer.parseInt(value);
 				statuses.put(userId, status);
 			}
 		}
-		AccsessDAO.updateAccesses(accesses);
-		StatusDAO.updateStatuses(statuses);
+		UsersService usersService = new UsersService();
+		usersService.updateAccesses(accesses);
+		usersService.updateStatuses(statuses);
 		return page;
 	}
 

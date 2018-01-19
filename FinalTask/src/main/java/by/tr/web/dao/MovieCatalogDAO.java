@@ -20,12 +20,12 @@ public class MovieCatalogDAO {
 	public MovieCatalogDAO() {
 		
 	}
-	public static List<Movie> getMovies(String languge){
-		ConnectionPool pool = ConnectionPool.getInstance();
+	public List<Movie> getMovies(String languge){
 		PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
 	    List<Movie> movies = new ArrayList<Movie>();
 		try {
+			ConnectionPool pool = ConnectionPool.getInstance();
 			Connection connection = pool.takeConnection();
 		    preparedStatement = connection.prepareStatement("select films_id_film, g.realese_year,g.films_rating,ftitle"
 		    		+ " from films g join "
@@ -56,7 +56,6 @@ public class MovieCatalogDAO {
 	}
 	private static Movie getMovie(ResultSet rs) throws SQLException {
 		Movie movie = new Movie();
-		System.out.println(rs.getString(FTITLE));
 		movie.setTitle(rs.getString(FTITLE));
 		movie.setId(Integer.parseInt(rs.getString(FILMS_ID_FILM)));
 		if(rs.getString(FILMS_RATING)!=null){

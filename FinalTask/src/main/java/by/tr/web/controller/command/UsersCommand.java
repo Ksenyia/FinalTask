@@ -8,17 +8,21 @@ import javax.servlet.http.HttpSession;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
-import by.tr.web.dao.UsersDAO;
 import by.tr.web.entity.User;
+import by.tr.web.service.UsersService;
 
 public class UsersCommand implements ActionCommand {
 
+	private static final String USERS2 = "users";
+	private static final String PATH_PAGE_USERS = "path.page.users";
+
 	public String execute(HttpServletRequest request) {
-		String page  = ConfigurationManager.getProperty("path.page.users");
+		String page  = ConfigurationManager.getProperty(PATH_PAGE_USERS);
 		List<User> users = new ArrayList<User>();
-		users = UsersDAO.getUsers() ;
+		UsersService usersService = new UsersService(); 
+		users = usersService.getUsers() ;
 		HttpSession session = request.getSession(true);
-		session.setAttribute("users" , users);
+		session.setAttribute(USERS2 , users);
 		return page;
 	}
 

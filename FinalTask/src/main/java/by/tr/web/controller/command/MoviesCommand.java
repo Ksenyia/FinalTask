@@ -1,6 +1,5 @@
 package by.tr.web.controller.command;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,17 +12,16 @@ import by.tr.web.entity.Movie;
 
 public class MoviesCommand implements ActionCommand {
 
+	private static final String PATH_PAGE_MAIN = "path.page.main";
+	private static final String LOCAL = "local";
+
 	public String execute(HttpServletRequest request) {
-		String page = ConfigurationManager.getProperty("path.page.main");
+		String page = ConfigurationManager.getProperty(PATH_PAGE_MAIN);
 		HttpSession session = request.getSession(true); 
 		List<Movie> movies = null;
-		String language = (String) session.getAttribute("local");
-		try {
-			movies = MovieCatalogDAO.getMovies(language);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String language = (String) session.getAttribute(LOCAL);
+		MovieCatalogDAO catalogDAO = new MovieCatalogDAO();
+		movies = catalogDAO.getMovies(language);
 		String sessionAttribute = "movies"; 
 		session.setAttribute(sessionAttribute , movies);
 		return page;

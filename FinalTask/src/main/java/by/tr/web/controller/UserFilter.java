@@ -21,7 +21,11 @@ import by.tr.web.entity.User;
  */
 public class UserFilter implements Filter {
 
-    /**
+    private static final String USER = "user";
+	private static final String USERS = "users";
+	private static final String COMMAND = "command";
+	private static final String PATH_PAGE_LOGIN = "path.page.login";
+	/**
      * Default constructor. 
      */
 	private static final Logger log = LogManager.getLogger(RatingFilter.class); 
@@ -41,15 +45,13 @@ public class UserFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		String action = ((HttpServletRequest)request).getParameter("command");
+		String action = ((HttpServletRequest)request).getParameter(COMMAND);
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
 		log.info("action "+action);
-		System.out.print("filter "+action);
-		String page = ConfigurationManager.getProperty("path.page.login");
-		User user = (User) session.getAttribute("user");
+		String page = ConfigurationManager.getProperty(PATH_PAGE_LOGIN);
+		User user = (User) session.getAttribute(USER);
 		boolean adminFlag = user!=null && user.isAdminFlag();
-		if ("users".equals(action) && !adminFlag) {
-			System.out.print("filter "+action);
+		if (USERS.equals(action) && !adminFlag) {
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}

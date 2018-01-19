@@ -7,8 +7,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-//import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
 
@@ -17,6 +15,9 @@ import org.apache.log4j.Logger;
  * Servlet implementation class Controller
  */
 public class Controller extends HttpServlet {
+	private static final String MESSAGE_NULLPAGE = "message.nullpage";
+	private static final String NULL_PAGE = "nullPage";
+	private static final String PATH_PAGE_INDEX = "path.page.index";
 	private static final long serialVersionUID = 1L;
 	private static final Logger log = Logger.getLogger(Controller.class);
 
@@ -51,15 +52,13 @@ public class Controller extends HttpServlet {
 		ActionCommand command = client.defineCommand(request);
 		page = command.execute(request);
 		log.info(page);
-		System.out.println(page);
 		if (page != null) {
-			System.out.println(page);
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		} else {
-			page = ConfigurationManager.getProperty("path.page.index");
-			request.getSession().setAttribute("nullPage",
-					MessageManager.getProperty("message.nullpage"));
+			page = ConfigurationManager.getProperty(PATH_PAGE_INDEX);
+			request.getSession().setAttribute(NULL_PAGE,
+					MessageManager.getProperty(MESSAGE_NULLPAGE));
 			response.sendRedirect(request.getContextPath() + page);
 		}
 	}

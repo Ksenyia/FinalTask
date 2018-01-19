@@ -20,6 +20,10 @@ import javax.servlet.http.HttpSession;
 
 public class LanguageFilter implements Filter {
 	
+	private static final String ENCODING = "UTF-8";
+	private static final String CONTENT_TYPE = "text/html";
+	private static final String DEFAULT_LANGUAGE = "ru";
+	private static final String LOCAL = "local";
 	private static final Logger log = LogManager.getLogger(LanguageFilter.class);
 
     /**
@@ -40,14 +44,15 @@ public class LanguageFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        response.setContentType("text/html");
-        response.setCharacterEncoding("UTF-8");
-        request.setCharacterEncoding("UTF-8");
+        response.setContentType(CONTENT_TYPE);
+        response.setCharacterEncoding(ENCODING);
+        request.setCharacterEncoding(ENCODING);
 
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-		if(session.getAttribute("local")==null){
-			session.setAttribute("local", "ru");
-			log.info("default lolal");
+		if(session.getAttribute(LOCAL)==null){
+			session.setAttribute(LOCAL, DEFAULT_LANGUAGE);
+			String message = "default local";
+			log.info(message);
 		}
 		chain.doFilter(request, response);
 	}

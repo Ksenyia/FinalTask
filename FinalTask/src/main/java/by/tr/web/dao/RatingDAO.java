@@ -12,7 +12,7 @@ public class RatingDAO {
 	private static final int ID_FILM = 1;
 	private static final String INSERT = "INSERT INTO movie_rating.rating (film_id_film, users_id_user, rating) VALUES (?, ?, ?);";
 
-	public static boolean setRating(int idUser,int rating, int idFilm){
+	public boolean setRating(int idUser,int rating, int idFilm){
 		PreparedStatement preparedStatement = null;
 	    String insert = INSERT;
 	    try {

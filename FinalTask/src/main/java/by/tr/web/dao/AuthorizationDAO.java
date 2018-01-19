@@ -12,55 +12,69 @@ import by.tr.web.entity.User;
 
 public class AuthorizationDAO {
 
+	private static final String STATUS = "status";
+	private static final String ADMIN_FLAG = "admin_flag";
+	private static final int TRUE = 1;
+	private static final String ACCESS = "access";
+	private static final String EMAIL = "email";
+	private static final String ID_USERS = "id_users";
+	private static final String PASSWORD = "password";
+	private static final String LOGIN = "login";
+	private static final String SELECT_FROM_USERS = "SELECT * FROM users";
+
 	public AuthorizationDAO() {
 		
 	}
-	public static User login(String login, String password) throws SQLException{
-		Connection con = MySQLConnector.connect();
+	public static User login(String login, String password){
 		PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
 	    String passHashed = passwordHash(password);
-	    User user = new User();
-	    preparedStatement = con.prepareStatement("SELECT * FROM users");
-	    rs = preparedStatement.executeQuery();
-	    
-		while(rs.next()) {
-			System.out.println(rs.getString("login"));
-			if (login.equals(rs.getString("login"))) {
-				if (passHashed.equals(rs.getString("password"))) {
-					int id =rs.getInt("id_users");
-					String email = rs.getString("email");
-					boolean accessFlag;
-					System.out.println(rs.getByte("access") + " "+ rs.getByte("admin_flag"));
-					if(rs.getByte("access")==1){
-						accessFlag = true;
-					}
-					else{
-						accessFlag = false;
-					}
-					boolean adminFlag;
-					if(rs.getByte("admin_flag")==1){
-						adminFlag = true;
-					}
-					else{
-						adminFlag = false;
-					}
-					int status = rs.getInt("status");
-					user.setAccessFlag(accessFlag);
-					user.setAdminFlag(adminFlag);
-					user.setId(id);
-					user.setEmail(email);
-					user.setLogin(login);
-					user.setStatus(status);
-					rs.close();
-					return user;
-				} 
-			}
-		}	
-		rs.close();
+		Connection connection;
+        ConnectionPool pool = ConnectionPool.getInstance();
+        try {
+			connection = pool.takeConnection();
+		    preparedStatement = connection.prepareStatement(SELECT_FROM_USERS);
+		    rs = preparedStatement.executeQuery();
+			while(rs.next()) {
+				if (login.equals(rs.getString(LOGIN))) {
+					if (passHashed.equals(rs.getString(PASSWORD))) {
+						User user = getUser(login, rs);
+						rs.close();
+						return user;
+					} 
+				}
+			}	
+			rs.close();
+		} catch (ConnectionPoolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return null;
-	
 }
+	private static User getUser(String login, ResultSet rs) throws SQLException {
+		int id =rs.getInt(ID_USERS);
+		String email = rs.getString(EMAIL);
+		boolean accessFlag;
+		if(rs.getByte(ACCESS)==TRUE){
+			accessFlag = true;
+		}
+		else{
+			accessFlag = false;
+		}
+		boolean adminFlag;
+		if(rs.getByte(ADMIN_FLAG)==TRUE){
+			adminFlag = true;
+		}
+		else{
+			adminFlag = false;
+		}
+		int status = rs.getInt(STATUS);
+		User user = new User(id, login, email,status,adminFlag,accessFlag);
+		return user;
+	}
 
   public static String passwordHash(String password)  {
 	  try{

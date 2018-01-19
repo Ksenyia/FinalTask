@@ -25,6 +25,7 @@ public final class ConnectionPool {
 	private String user;
 	private String password;
 	private int poolSize;
+	private static ConnectionPool instance;
 	
 	private ConnectionPool() {
 		
@@ -41,6 +42,17 @@ public final class ConnectionPool {
 			poolSize = 5;
 		}
 	}
+	
+	public static ConnectionPool getInstance() {
+        if (instance == null) {
+            synchronized (ConnectionPool.class) {
+                if (instance == null) {
+                	instance = new ConnectionPool();
+                }
+            }
+        }
+        return instance;
+    }
 	
 	public void initPoolData() throws ConnectionPoolException { 
 		
@@ -75,7 +87,8 @@ public final class ConnectionPool {
 	public Connection takeConnection() throws ConnectionPoolException { 
 		Connection connection = null;
 		try {
-			connection = connectionQueue.take(); givenAwayConQueue.add(connection);
+			connection = connectionQueue.take(); 
+			givenAwayConQueue.add(connection);
 		} catch (InterruptedException e) {
 			throw new ConnectionPoolException("Error connecting to the data source.", e);
 		}

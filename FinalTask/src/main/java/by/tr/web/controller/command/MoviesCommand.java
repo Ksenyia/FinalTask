@@ -8,7 +8,7 @@ import javax.servlet.http.HttpSession;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
-import by.tr.web.dao.Catalog;
+import by.tr.web.dao.MovieCatalogDAO;
 import by.tr.web.entity.Movie;
 
 public class MoviesCommand implements ActionCommand {
@@ -19,7 +19,7 @@ public class MoviesCommand implements ActionCommand {
 		List<Movie> movies = null;
 		String language = (String) session.getAttribute("local");
 		try {
-			movies = Catalog.getMovies(language);
+			movies = MovieCatalogDAO.getMovies(language);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

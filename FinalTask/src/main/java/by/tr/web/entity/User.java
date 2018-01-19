@@ -19,7 +19,14 @@ public class User implements Serializable {
 	
 	public User() {
 		super();
-		// TODO Auto-generated constructor stub
+	}
+	public User(int id, String login, String email, int status, boolean adminFlag, boolean accessFlag) {
+		this.setId(id);
+		this.setLogin(login);
+		this.setEmail(email);
+		this.setStatus(status);
+		this.setAdminFlag(adminFlag);
+		this.setAccessFlag(accessFlag);
 	}
 	public String getSurname() {
 		return surname;

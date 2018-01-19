@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
-import by.tr.web.dao.Accsess;
-import by.tr.web.dao.Status;
+import by.tr.web.dao.AccsessDAO;
+import by.tr.web.dao.StatusDAO;
 
 public class EditCommand implements ActionCommand {
 
@@ -39,8 +39,8 @@ public class EditCommand implements ActionCommand {
 				statuses.put(userId, status);
 			}
 		}
-		Accsess.updateAccesses(accesses);
-		Status.updateStatuses(statuses);
+		AccsessDAO.updateAccesses(accesses);
+		StatusDAO.updateStatuses(statuses);
 		return page;
 	}
 

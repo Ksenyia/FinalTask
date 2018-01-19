@@ -10,7 +10,7 @@ import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
 import by.tr.web.controller.MessageManager;
 import by.tr.web.dao.AuthorizationDAO;
-import by.tr.web.dao.Catalog;
+import by.tr.web.dao.MovieCatalogDAO;
 import by.tr.web.entity.Movie;
 import by.tr.web.entity.User;
 
@@ -35,7 +35,7 @@ public class LoginCommand implements ActionCommand {
 				if(user!=null){
 					try {
 						String language = (String) session.getAttribute("local");
-						movies = Catalog.getMovies(language);
+						movies = MovieCatalogDAO.getMovies(language);
 						session.setAttribute("user", user);
 						
 					} catch (SQLException e) {

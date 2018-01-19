@@ -9,7 +9,7 @@ import java.util.List;
 import org.junit.Test;
 
 import by.tr.web.dao.AuthorizationDAO;
-import by.tr.web.dao.Catalog;
+import by.tr.web.dao.MovieCatalogDAO;
 import by.tr.web.entity.Movie;
 import by.tr.web.entity.User;
 
@@ -28,7 +28,7 @@ public class AuthorizationTest {
     }
     @Test
     public void getMoviesTest() throws SQLException {
-    	List<Movie> movies = Catalog.getMovies("ru");
+    	List<Movie> movies = MovieCatalogDAO.getMovies("ru");
         assertEquals(7,movies.get(5).getId());
     }
 }  

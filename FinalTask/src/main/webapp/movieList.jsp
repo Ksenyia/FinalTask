@@ -71,7 +71,6 @@
   			  <c:set var="end" scope="session" value="${11}"/>
 			  <c:forEach var="movie" items = "${movies}">
 				<tr>
-					<c:url value="Controller?command=movie"> <c:param name="movieId" value="${movie.getId()}"/></c:url>
 					<td><a href="<c:url value="Controller?command=movie"> <c:param name="movieId" value="${movie.getId()}"/></c:url>"><c:out value = "${movie.getTitle()}"></c:out></a> </td>
 					<td>${movie.getYear()}</td>
 					<td>${movie.getRating()}</td>

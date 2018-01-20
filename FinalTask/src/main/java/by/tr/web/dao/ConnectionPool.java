@@ -45,7 +45,9 @@ public final class ConnectionPool {
 	}
 	
 	public static ConnectionPool getInstance() throws ConnectionPoolException {
-        instance = new ConnectionPool();
+		if(instance==null){
+			instance = new ConnectionPool();
+		}
         return instance;
     }
 	

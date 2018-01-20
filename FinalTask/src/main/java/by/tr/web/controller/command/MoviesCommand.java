@@ -18,7 +18,7 @@ public class MoviesCommand implements ActionCommand {
 	public String execute(HttpServletRequest request) {
 		String page = ConfigurationManager.getProperty(PATH_PAGE_MAIN);
 		HttpSession session = request.getSession(true); 
-		List<Movie> movies = null;
+		List<Movie> movies = null; 
 		String language = (String) session.getAttribute(LOCAL);
 		MovieCatalogDAO catalogDAO = new MovieCatalogDAO();
 		movies = catalogDAO.getMovies(language);

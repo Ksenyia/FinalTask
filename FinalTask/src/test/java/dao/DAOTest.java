@@ -33,4 +33,18 @@ public class DAOTest {
     	List<Movie> movies = catalogDAO.getMovies("ru");
         assertEquals(7,movies.get(5).getId());
     }
+    @Test
+    public void getMovieTest() throws SQLException {
+    	MovieCatalogDAO catalogDAO = new MovieCatalogDAO();
+    	Movie movie = catalogDAO.getMovie(5, "ru");
+        assertEquals((Double)9.5, movie.getRating());
+    }
+    @Test
+    public void setGenreTest() throws SQLException {
+    	MovieCatalogDAO catalogDAO = new MovieCatalogDAO();
+    	Movie movie = catalogDAO.getMovie(5, "ru");
+    	catalogDAO.setGenre(movie, "ru");
+    	catalogDAO.setCountry(movie, "ru");
+        assertEquals((Double)9.5, movie.getRating());
+    }
 }  

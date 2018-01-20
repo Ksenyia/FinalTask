@@ -5,7 +5,6 @@ import javax.servlet.http.HttpSession;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
-import by.tr.web.dao.RatingDAO;
 import by.tr.web.entity.User;
 import by.tr.web.service.RatingService;
 

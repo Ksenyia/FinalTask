@@ -46,15 +46,13 @@
 	<jsp:useBean id = "movie" class="by.tr.web.entity.Movie" type = "java.lang.Object" ></jsp:useBean>
 	<h1 class="head"><jsp:getProperty property="title" name="movie"/></h1>
 	<jsp:getProperty property="title" name="movie"/>
+	<jsp:getProperty property="type" name="movie"/>
+	<jsp:getProperty property="year" name="movie"/>
+	<jsp:getProperty property="rating" name="movie"/>
+	<jsp:getProperty property="genres" name="movie"/>
+	<jsp:getProperty property="countries" name="movie"/>
 	<form action="Controller" method="post">
 		<input type="hidden" name="command" value="editMovie" />
-		<p><fmt:message bundle="${loc}" key="local.login"/></p>
-		<input type="text" name="view" >
-		<span class="err" id="err-uname"></span>
-		<p><fmt:message bundle="${loc}" key="local.password"/></p>
-		<input type="password" name="password">
-		<span class="err" id="err-pwd1"></span><br>
-		<fmt:message bundle="${loc}" key="local.login.button.name" var= "login"/>
 		<input type="hidden" name="button" value="login" />
 		<input type="submit" value="${login}" /> 
 	</form>

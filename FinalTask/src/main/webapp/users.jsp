@@ -6,7 +6,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Список фильмов</title>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="localization.locale" var="loc" />
+<title><fmt:message bundle="${loc}" key="local.page.users.title"/></title>
 <link rel="icon" href="img/movie_night.jpg" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -14,17 +16,25 @@
 <body>
 <jsp:useBean id = "movies" scope="session" class="by.tr.web.entity.Movie" type="java.lang.Object"></jsp:useBean>
 	<header class="fon1">
-		<h1 class="head">Кино-рейтинг</h1>
+		<h1 class="head"><fmt:message bundle="${loc}" key="local.page.users.title"/></h1>
 		<div id="anim">
 			<img id="animation" src="img/cat.png" alt="Picture not found">
 		</div>
 		<nav>
-			<a class="navig" href="#">Главная</a> <a class="navig" href="#">Профиль</a>|
-			<a class="navig" href="#">Выйти</a>|
+			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
+			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 			<div class="dropdown">
-				<button class="dropbtn">Русский</button>
+				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="#">Русский</a> <a href="#">English</a>
+					<a href="<c:url value="Controller?command=local"> 
+					<c:param name="local" value="ru"/>
+					<c:param name="page" value="path.page.users"/></c:url>">
+					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
+					<a href="<c:url value="Controller?command=local"> 
+					<c:param name="local" value="en"/>
+					<c:param name="page" value="path.page.users"/></c:url>">
+					<fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 				</div>
 			</div>
 		</nav>
@@ -57,14 +67,13 @@
 	<input type="hidden" name="command" value ="users">
 	<form class="users-form" action="Controller" method="post">
 		<table>
-			<caption class="head">Users</caption>
+			<caption class="head"><fmt:message bundle="${loc}" key="local.page.users.title"/></caption>
 			<thead>
 				<tr>
-					<th>Login</th>
+					<th><fmt:message bundle="${loc}" key="local.login"/></th>
 					<th>E-mail</th>
-					<th>Admin_Flag</th>
-					<th>Status</th>
-					<th>Acsess</th>
+					<th><fmt:message bundle="${loc}" key="local.status"/></th>
+					<th><fmt:message bundle="${loc}" key="local.access"/></th>
 					<th></th>
 				</tr>
 			</thead>
@@ -111,15 +120,15 @@
 	</article>
 
 	<footer>
-		<p>Акула Ксения</p>
-		<p>
-			Контактная информация: <a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
-		</p>
+	<p><fmt:message bundle="${loc}" key="local.footer.name"/></p>
+	<p>
+		<fmt:message bundle="${loc}" key="local.footer.contact"/>
+		<a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
+	</p>
 	</footer>
 </body>
 <script>
 function myFunction(id) {
-	//onclick="myFunction(${user.getId()})"
     var x = document.getElementById("сheck"+id).checked;
     if(x){
     	document.getElementById("сheck"+id).value = true;

@@ -7,6 +7,8 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
+import by.tr.web.dao.connection.pool.ConnectionPool;
+import by.tr.web.dao.connection.pool.ConnectionPoolException;
 import by.tr.web.entity.User;
 
 
@@ -27,6 +29,7 @@ public class RegistrationDAO {
 		    preparedStatement.setString(3, passHashed);
 		    preparedStatement.executeUpdate();
 		    preparedStatement.close();
+		    connection.close();
 		    AuthorizationDAO authorizationDAO = new AuthorizationDAO();
 			user = authorizationDAO.login(login, passHashed);
 		} catch (SQLException e) {

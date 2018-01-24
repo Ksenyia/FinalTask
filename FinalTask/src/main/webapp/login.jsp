@@ -21,23 +21,19 @@
 		<fmt:message bundle="${loc}" key="local.site.name"/>
 	</h1>
 	<nav>
-	<a class="navig" href="Controller?command=movies">Home</a>|
-	 <a class="navig" href="Controller?command=login">Login</a>|
+	<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
+	<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
 	<div class="dropdown">
 		<fmt:message bundle="${loc}" key="local"/> <br />
 		<div class="dropdown-content">
-			<form action="Controller" method="post">
-				<input type="hidden" name="command" value="local" />
-				<input type="hidden" name="local" value="ru" />
-				<fmt:message bundle="${loc}" key="local.locbutton.name.ru" var="ru_button" /> 
-				<input class="dropbtn" type="submit" value="${ru_button}" /><br />
-			</form>
-			<form action="Controller" method="post">
-				<input type="hidden" name="command" value="local" />
-				<input type="hidden" name="local" value="en" />
-				<fmt:message bundle="${loc}" key="local.locbutton.name.en" var="en_button" /> 
-				<input type="submit" value="${en_button}" /><br />
-			</form>
+			<a href="<c:url value="Controller?command=local"> 
+			<c:param name="local" value="ru"/>
+			<c:param name="page" value="path.page.login"/></c:url>">
+			<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
+			<a href="<c:url value="Controller?command=local"> 
+			<c:param name="local" value="en"/>
+			<c:param name="page" value="path.page.login"/>
+			</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 		</div>
 	</div>
 	</nav> 

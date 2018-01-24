@@ -1,4 +1,4 @@
-package by.tr.web.dao;
+package by.tr.web.dao.connection.pool;
 
 public class ConnectionPoolException extends Exception {
 	private static final long serialVersionUID = 1L;

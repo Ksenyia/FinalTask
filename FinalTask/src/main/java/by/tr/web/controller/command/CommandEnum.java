@@ -62,6 +62,11 @@ public enum CommandEnum {
 		{
 			this.command = new LogoutCommand();
 		}
+	},
+	SENDCHANGES {
+		{
+			this.command = new SendChangesCommand();
+		}
 	};
 	ActionCommand command;
 	public ActionCommand getCurrentCommand() {

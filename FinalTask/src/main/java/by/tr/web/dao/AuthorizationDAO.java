@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import by.tr.web.dao.connection.pool.ConnectionPool;
+import by.tr.web.dao.connection.pool.ConnectionPoolException;
 import by.tr.web.entity.User;
 
 public class AuthorizationDAO {
@@ -16,8 +18,7 @@ public class AuthorizationDAO {
 	private static final String EMAIL = "email";
 	private static final String ID_USERS = "id_users";
 	private static final String PASSWORD = "password";
-	private static final String LOGIN = "login";
-	private static final String SELECT_FROM_USERS = "SELECT * FROM users";
+	private static final String SELECT_FROM_USERS = "SELECT * FROM users where login = ?";
 
 	public AuthorizationDAO() {
 		
@@ -29,17 +30,17 @@ public class AuthorizationDAO {
 			ConnectionPool pool = ConnectionPool.getInstance();
 			Connection connection = pool.takeConnection();
 		    preparedStatement = connection.prepareStatement(SELECT_FROM_USERS);
+		    preparedStatement.setString(1, login);
 		    rs = preparedStatement.executeQuery();
-			while(rs.next()) {
-				if (login.equals(rs.getString(LOGIN))) {
-					if (passHashed.equals(rs.getString(PASSWORD))) {
-						User user = getUser(login, rs);
-						rs.close();
-						return user;
-					} 
-				}
+			if(rs.next()) {
+				if (passHashed.equals(rs.getString(PASSWORD))) {
+					User user = getUser(login, rs);
+					rs.close();
+					return user;
+				} 
 			}	
 			rs.close();
+			connection.close();
 		} catch (ConnectionPoolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

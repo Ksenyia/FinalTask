@@ -1,4 +1,4 @@
-package by.tr.web.dao;
+package by.tr.web.dao.connection.pool;
 
 import java.sql.Array;
 import java.sql.Blob;

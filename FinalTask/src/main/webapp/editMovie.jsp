@@ -8,8 +8,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="localization.locale" var="loc"/>
-<title><fmt:message bundle="${loc}" key="local.page.add.title"/></title>
+<fmt:setBundle basename="localization.locale" var="loc" />
+<jsp:useBean id = "movie" class="by.tr.web.entity.Movie" type = "java.lang.Object" scope = "session" ></jsp:useBean>
+<title><jsp:getProperty property="title" name="movie"/></title>
 <link rel="icon" href="img/movie_night.jpg" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="formstyle.css">
 </head>
@@ -41,32 +42,82 @@
 	</nav> 
 	</header>
 	<article>
-	<h1 class="head"><fmt:message bundle="${loc}" key="local.page.add.title"/></h1>
+	<h1 class="head"><jsp:getProperty property="title" name="movie"/></h1>
+	<c:set var="movieId" scope="request" value="${movie.getId()}" />
+	<p><jsp:getProperty property="title" name="movie"/></p>
+	<p><jsp:getProperty property="type" name="movie"/></p>
+	<p><jsp:getProperty property="year" name="movie"/></p>
+	<p><jsp:getProperty property="rating" name="movie"/></p>
+	<p><jsp:getProperty property="director" name="movie"/></p>
+	<p><jsp:getProperty property="discription" name="movie"/></p>
+	<p><jsp:getProperty property="genres" name="movie"/></p>
+	<p><jsp:getProperty property="countries" name="movie"/></p>
 	<form action="Controller" method="post">
 		<input type="hidden" name="command" value="sendChanges" />
-		<input type="text" name="title" value="" required/>
-		<input type="text" name="year" value="" />
-		<input type="text" name="director" value="" />
-		<textarea rows="5" cols="15" name="discription"></textarea>
+		<input type="hidden" name="button" value="login" />
+		<input type="text" name="title" value="${movie.getTitle()}" required/>
+		<input type="text" name="year" value="${movie.getYear()}" />
+		<input type="text" name="director" value="${movie.getDirector()}" />
+		<textarea rows="5" cols="15" name="discription">${movie.getDiscription()}</textarea>
 		<select id="types" name = "type" onclick="newSelect('types','type','newType')">
 			<c:forEach var="type" items = "${types}">
-		  	  <option value = "${type}">${type}</option>
+			<c:choose>
+			<c:when test="${movie.getType() eq type} ">
+		  	  <option value = "${type}" selected="selected">${type}</option>
+		  	 </c:when>
+		  	 <c:otherwise>
+		  	 <option value = "${type}">${type}</option>
+		  	 </c:otherwise>
+		  	  </c:choose>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
 		  	<option value = "other">${other}</option>
 		</select>
 		<p id = "newType"></p>
+		<c:set var = "size"  value = "${movie.getGenres().size()}"></c:set>
 		<select id="genres" name = "genre" multiple>
 			<c:forEach var="genre" items = "${genres}">
-		  	  <option value = "${genre}">${genre}</option>
+			  <c:set var = "flag"  value = "${true}"></c:set>
+			  <c:set var = "count"  value = "${0}"></c:set>
+			  <c:forEach var="movieGenre" items = "${movie.getGenres()}">
+			  <c:set var = "count"  value = "${count+1}"></c:set>
+			    <c:choose>
+			      <c:when test="${genre eq movieGenre}">
+			        <option value = "${genre}" selected="selected">${genre}</option>
+			        <c:set var = "flag"  value = "${false}"></c:set>
+			      </c:when>
+			      <c:otherwise>
+			  	    <c:if test="${(count==size)&&flag}">
+		  	          <option value = "${genre}">${genre}</option>
+		  	          <c:set var = "flag"  value = "${false}"></c:set>
+		  	        </c:if>
+		  	      </c:otherwise>
+		  	    </c:choose>
+		  	  </c:forEach>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
 		  	<option value = "other" onclick="newSelects('genres','genre','newGenre')">${other}</option>
 		</select>
 		<p id = "newGenre"></p>
+		<c:set var = "size"  value = "${movie.getCountries().size()}"></c:set>
 		<select id="countries" name= "country"  multiple>
 			<c:forEach var="country" items = "${countries}">
-		  	  <option value = "${country}">${country}</option>
+			  <c:set var = "flag"  value = "${true}"></c:set>
+			  <c:set var = "count"  value = "${0}"></c:set>
+			<c:forEach var="movieCountry" items = "${movie.getCountries()}">
+			<c:set var = "count"  value = "${count+1}"></c:set>
+			<c:choose>
+			<c:when test="${country eq movieCountry}">
+			<c:if test="${(count==size)&&flag}">
+			<option value = "${country}" selected="selected">${country}</option>
+			</c:if>
+            <c:set var = "flag"  value = "${false}"></c:set>
+			</c:when>
+			<c:otherwise>
+			<option value = "${country}">${country}</option>
+			</c:otherwise>
+		  	  </c:choose>
+		  	  </c:forEach>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
 		  	<option value = "other" onclick="newSelects('countries','country','newCountry')">${other}</option>
@@ -74,8 +125,8 @@
 		<p id = "newCountry"></p>
 		<fmt:message bundle="${loc}" key="local.reset" var= "reset"/>
 		<input type="reset" value = "${reset}" /> 
-		<fmt:message bundle="${loc}" key="local.add" var= "add"/>
-		<input type="submit" value="${add}" /> 
+		<fmt:message bundle="${loc}" key="local.edit" var= "edit"/>
+		<input type="submit" value="${edit}" /> 
 	</form>
 	</article>
 	<footer>
@@ -95,18 +146,20 @@ function newSelect(x,y,z) {
          
     }
     else{
-    	Delete(y,z)
+    	Delete(y,z);
     }
 }
 
 function newSelects(x,y,z) {
-	   i = document.getElementById(x).selectedIndex;
 	   l = document.getElementById(x).length;
 	   var newInput = document.getElementById(y);
-	   if(i==(l-1)&&!newInput){
-	         Add(y,z);
-	         
+	   if(!newInput){
+	         Add(y,z);   
 	    }
+	   else{
+		   Delete(y,z);
+	   }
+	   
 	}
 
 function Add(y,z) {

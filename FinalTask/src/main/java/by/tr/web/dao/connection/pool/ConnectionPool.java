@@ -1,4 +1,4 @@
-package by.tr.web.dao;
+package by.tr.web.dao.connection.pool;
 
 import java.util.Locale;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -8,7 +8,6 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 import com.mysql.jdbc.Statement;
-import by.tr.web.dao.PooledConnection;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -45,9 +44,9 @@ public final class ConnectionPool {
 	}
 	
 	public static ConnectionPool getInstance() throws ConnectionPoolException {
-		if(instance==null){
+		//if(instance==null){
 			instance = new ConnectionPool();
-		}
+		//}
         return instance;
     }
 	

@@ -11,6 +11,8 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 
+import by.tr.web.dao.connection.pool.ConnectionPool;
+import by.tr.web.dao.connection.pool.ConnectionPoolException;
 import by.tr.web.entity.User;
 
 public class UsersDAO {
@@ -22,6 +24,7 @@ public class UsersDAO {
 	private static final String ADMIN_FLAG = "admin_flag";
 	private static final String LOGIN = "login";
 	private static final String SELECT_FROM_USERS = "SELECT * FROM users";
+	private static final String SELECT_STATUS = "SELECT status FROM movie_rating.users where id_users = ?;";
 	private static final String UPDATE_ACCESSES = "UPDATE movie_rating.users SET users.access = ? WHERE users.id_users= ? ";
 	private static final String UPDATE_STATUSES = "UPDATE movie_rating.users SET users.status = ? WHERE users.id_users= ? ";
 	public static final Logger log = Logger.getLogger(UsersDAO.class);
@@ -79,7 +82,7 @@ public class UsersDAO {
 		return resalt;
 	}
 	
-	private static boolean updateStatus(Integer userId, Integer status){
+	public boolean updateStatus(Integer userId, Integer status){
 		PreparedStatement preparedStatement = null;
 		try {
 			ConnectionPool pool = ConnectionPool.getInstance();
@@ -93,7 +96,7 @@ public class UsersDAO {
 			e.printStackTrace();
 			return false;
 
-	} catch (ConnectionPoolException e) {
+		} catch (ConnectionPoolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return false;
@@ -143,7 +146,33 @@ public class UsersDAO {
 		}
 		return true;
 	}
-
+	
+	public void changeStatus(int idUser, int statusDifference) {
+		ConnectionPool pool;
+		try {
+			pool = ConnectionPool.getInstance();
+			Connection connection = pool.takeConnection();
+			PreparedStatement preparedStatement = null;
+		    ResultSet rs = null;
+		    preparedStatement = connection.prepareStatement(SELECT_STATUS);
+		    preparedStatement.setInt(1, idUser);
+		    rs = preparedStatement.executeQuery();
+		    int status;
+		    if(rs.next()){
+		    	status = rs.getInt("status");
+		    	status-=statusDifference;
+		    	rs.close();
+		    	updateStatus(idUser, status);
+		    }
+		} catch (ConnectionPoolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
 
 }
 

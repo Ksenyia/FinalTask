@@ -1,4 +1,4 @@
-package by.tr.web.dao;
+package by.tr.web.dao.connection.pool;
 
 import java.util.ResourceBundle;
 
@@ -8,7 +8,6 @@ public class DBResourceManager {
 	private ResourceBundle bundle = ResourceBundle.getBundle("db");
 
 	public static DBResourceManager getInstance() {
-		
 		return instance;
 	}
 

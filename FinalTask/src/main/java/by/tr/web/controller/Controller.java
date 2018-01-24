@@ -47,8 +47,6 @@ public class Controller extends HttpServlet {
 			throws ServletException, IOException {
 		String page = null;
 		ActionFactory client = new ActionFactory();
-		SessionRequestContent sessionRequestContent = new SessionRequestContent();
-		sessionRequestContent.extractValues(request);
 		ActionCommand command = client.defineCommand(request);
 		page = command.execute(request);
 		log.info(page);
@@ -57,8 +55,7 @@ public class Controller extends HttpServlet {
 			dispatcher.forward(request, response);
 		} else {
 			page = ConfigurationManager.getProperty(PATH_PAGE_INDEX);
-			request.getSession().setAttribute(NULL_PAGE,
-					MessageManager.getProperty(MESSAGE_NULLPAGE));
+			request.getSession().setAttribute(NULL_PAGE, MessageManager.getProperty(MESSAGE_NULLPAGE));
 			response.sendRedirect(request.getContextPath() + page);
 		}
 	}

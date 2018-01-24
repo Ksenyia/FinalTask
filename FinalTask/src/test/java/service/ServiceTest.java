@@ -10,7 +10,7 @@ import org.junit.Test;
 import by.tr.web.entity.Movie;
 import by.tr.web.entity.User;
 import by.tr.web.service.AuthorizationService;
-import by.tr.web.service.MovieCatalogService;
+import by.tr.web.service.MovieService;
 
 public class ServiceTest {
 	@Test
@@ -27,7 +27,7 @@ public class ServiceTest {
     }
     @Test
     public void getMoviesTest() throws SQLException {
-    	MovieCatalogService catalogService = new MovieCatalogService();
+    	MovieService catalogService = new MovieService();
     	List<Movie> movies = catalogService.getMovies("ru");
         assertEquals(7,movies.get(5).getId());
     }

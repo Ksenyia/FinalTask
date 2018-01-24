@@ -2,11 +2,14 @@
 	pageEncoding="utf-8" isELIgnored="false"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib uri="/WEB-INF/tld/taglib.tld" prefix="mytag"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Список фильмов</title>
+<fmt:setLocale value="${sessionScope.local}" />
+<fmt:setBundle basename="localization.locale" var="loc" />
+<title><fmt:message bundle="${loc}" key="local.page.movie.list.title"/></title>
 <link rel="icon" href="img/movie_night.jpg" type="image/x-icon">
 <link rel="stylesheet" type="text/css" href="style.css">
 </head>
@@ -14,18 +17,27 @@
 <body>
 <jsp:useBean id = "movies" scope="session" class="by.tr.web.entity.Movie" type="java.lang.Object"></jsp:useBean>
 	<header class="fon1">
-		<h1 class="head">Кино-рейтинг</h1>
+		<h1 class="head">
+		<fmt:message bundle="${loc}" key="local.site.name"/>
+		</h1>
 		<div id="anim">
 			<img id="animation" src="img/cat.png" alt="Picture not found">
 		</div>
 		<nav>
-			<a class="navig" href="Controller?command=movies">Главная</a> <a class="navig" href="#">Профиль</a>|
-			<a class="navig" href="Controller?command=logout">Выйти</a>|
-			<a class="navig" href="Controller?command=users">Users</a>|
+			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
+			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 			<div class="dropdown">
-				<button class="dropbtn">Русский</button>
+				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="#">Русский</a> <a href="#">English</a>
+					<a href="<c:url value="Controller?command=local"> 
+					<c:param name="local" value="ru"/>
+					<c:param name="page" value="path.page.main"/></c:url>">
+					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
+					<a href="<c:url value="Controller?command=local"> 
+					<c:param name="local" value="en"/>
+					<c:param name="page" value="path.page.main"/>
+					</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 				</div>
 			</div>
 		</nav>
@@ -57,13 +69,13 @@
 
 	<article>
 		<table>
-			<caption class="head">Фильмы</caption>
+			<caption class="head"><fmt:message bundle="${loc}" key="local.page.movie.list.title"/></caption>
 			<thead>
 				<tr>
-					<th>Название</th>
-					<th>Год</th>
-					<th>Рейтинг</th>
-					<th>Ваш рейтинг</th>
+					<th><fmt:message bundle="${loc}" key="local.movie.title"/></th>
+					<th><fmt:message bundle="${loc}" key="local.movie.year"/></th>
+					<th><fmt:message bundle="${loc}" key="local.movie.rating"/></th>
+					<th><fmt:message bundle="${loc}" key="local.movie.your.rating"/></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -73,7 +85,7 @@
 				<tr>
 					<td><a href="<c:url value="Controller?command=movie"> <c:param name="movieId" value="${movie.getId()}"/></c:url>"><c:out value = "${movie.getTitle()}"></c:out></a> </td>
 					<td>${movie.getYear()}</td>
-					<td>${movie.getRating()}</td>
+					<td><fmt:formatNumber value = "${movie.getRating()}" type = "number"/></td>
 					<td>
 						<div class="ratings">
 							<form class="ratings-form" action="Controller" method="post">
@@ -162,6 +174,11 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<form action="Controller" method="post">
+			<input type="hidden" name="command" value="addMovie" />
+			<fmt:message bundle="${loc}" key="local.review" var= "review"/>
+			<input type="submit" name="button" value="${review}"  /><br />
+		</form>
 		<div class="pagination">
 			<a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a>
 			<a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a>
@@ -170,10 +187,10 @@
 	</article>
 
 	<footer>
-		<p>Акула Ксения</p>
-		<p>
-			Контактная информация: <a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
-		</p>
+	<p><fmt:message bundle="${loc}" key="local.footer.name"/></p>
+	<p>
+		<fmt:message bundle="${loc}" key="local.footer.contact"/> <a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
+	</p>
 	</footer>
 </body>
 </html>

@@ -13,7 +13,7 @@ import by.tr.web.service.UsersService;
 
 public class UsersCommand implements ActionCommand {
 
-	private static final String USERS2 = "users";
+	private static final String USERS = "users";
 	private static final String PATH_PAGE_USERS = "path.page.users";
 
 	public String execute(HttpServletRequest request) {
@@ -22,7 +22,7 @@ public class UsersCommand implements ActionCommand {
 		UsersService usersService = new UsersService(); 
 		users = usersService.getUsers() ;
 		HttpSession session = request.getSession(true);
-		session.setAttribute(USERS2 , users);
+		session.setAttribute(USERS , users);
 		return page;
 	}
 

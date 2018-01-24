@@ -53,6 +53,7 @@ public class RatingFilter implements Filter {
 		User user = (User) session.getAttribute(USER);
 		boolean accessFlag = user!=null && user.isAccessFlag();
 		if (RATING.equals(action) && !accessFlag) {
+			System.out.println(accessFlag);
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}

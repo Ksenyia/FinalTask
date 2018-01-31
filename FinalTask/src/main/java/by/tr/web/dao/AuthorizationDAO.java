@@ -40,7 +40,7 @@ public class AuthorizationDAO {
 				} 
 			}	
 			rs.close();
-			connection.close();
+			//connection.close();
 		} catch (ConnectionPoolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

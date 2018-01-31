@@ -1,4 +1,4 @@
-package by.tr.web.controller;
+package by.tr.web.controller.tag;
 
 import java.io.IOException;
 import java.util.HashMap;

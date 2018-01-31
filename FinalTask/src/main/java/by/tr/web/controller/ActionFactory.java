@@ -13,6 +13,7 @@ public class ActionFactory {
 	public ActionCommand defineCommand(HttpServletRequest request){
 		ActionCommand current = new EmptyCommand();
 		String action = request.getParameter("command");
+		
 		log.info("action "+action);
 		if (action == null || action.isEmpty()) {
 			return current;

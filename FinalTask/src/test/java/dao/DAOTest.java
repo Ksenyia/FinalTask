@@ -10,6 +10,7 @@ import org.junit.Test;
 
 import by.tr.web.dao.AuthorizationDAO;
 import by.tr.web.dao.MovieDAO;
+import by.tr.web.dao.RatingDAO;
 import by.tr.web.entity.Movie;
 import by.tr.web.entity.User;
 
@@ -46,5 +47,11 @@ public class DAOTest {
     	catalogDAO.setGenre(movie, "ru");
     	catalogDAO.setCountry(movie, "ru");
         assertEquals((Double)9.5, movie.getRating());
+    }
+    @Test
+    public void isRatingSettedTest() throws SQLException {
+    	RatingDAO catalogDAO = new RatingDAO();
+    	boolean isRatingSetted = catalogDAO.isRatingSetted(2, 5);
+        assertEquals(true, isRatingSetted);
     }
 }  

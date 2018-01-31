@@ -23,16 +23,16 @@
 	</h1>
 	<nav>
 			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
-			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="login.jsp"><fmt:message bundle="${loc}" key="local.login"/></a>|
 			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 	<div class="dropdown">
 		<fmt:message bundle="${loc}" key="local"/> <br />
 		<div class="dropdown-content">
-			<a href="<c:url value="Controller?command=local"> 
+			<a href="<c:url value="Controller?command=addMovie"> 
 			<c:param name="local" value="ru"/>
 			<c:param name="page" value="path.page.movie"/></c:url>">
 			<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-			<a href="<c:url value="Controller?command=local"> 
+			<a href="<c:url value="Controller?command=addMovie"> 
 			<c:param name="local" value="en"/>
 			<c:param name="page" value="path.page.movie"/>
 			</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
@@ -43,33 +43,50 @@
 	<article>
 	<h1 class="head"><fmt:message bundle="${loc}" key="local.page.add.title"/></h1>
 	<form action="Controller" method="post">
-		<input type="hidden" name="command" value="sendChanges" />
-		<input type="text" name="title" value="" required/>
-		<input type="text" name="year" value="" />
-		<input type="text" name="director" value="" />
-		<textarea rows="5" cols="15" name="discription"></textarea>
-		<select id="types" name = "type" onclick="newSelect('types','type','newType')">
-			<c:forEach var="type" items = "${types}">
+		<input type="hidden" name="command" value="sendAdd" />
+		<p> RU tittle </p>
+		<input type="text" name="titleRU" required/>
+		<p> EN tittle </p>
+		<input type="text" name="titleEN"/>
+		<input type="text" name="year"/>
+		<p> RU directore </p>
+		<input type="text" name="directorRU"/>
+		<p> EN directore </p>
+		<input type="text" name="directorEN"/>
+		<p> RU discription </p>
+		<textarea rows="5" cols="15" name="discriptionRU"></textarea>
+		<p> EN discription </p>
+		<textarea rows="5" cols="15" name="discriptionEN"></textarea>
+		<select id="types" name = "typeRU" onclick="newSelect('types','typeRU','newTypeRU')">
+			<c:forEach var="type" items = "${typesRU}">
 		  	  <option value = "${type}">${type}</option>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
 		  	<option value = "other">${other}</option>
 		</select>
-		<p id = "newType"></p>
-		<select id="genres" name = "genre" multiple>
-			<c:forEach var="genre" items = "${genres}">
-		  	  <option value = "${genre}">${genre}</option>
+		<p id = "newTypeRU"></p>
+		<select id="types" name = "typeEN" onclick="newSelect('types','typeEN','newTypeEN')">
+			<c:forEach var="type" items = "${typesEN}">
+		  	  <option value = "${type}">${type}</option>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
-		  	<option value = "other" onclick="newSelects('genres','genre','newGenre')">${other}</option>
+		  	<option value = "other">${other}</option>
+		</select>
+		<p id = "newTypeEN"></p>
+		<select id="genres" name = "genre" onchange="newSelects('genres','genre','newGenre')" multiple>
+			<c:forEach var="genre" items = "${genres}">
+		  	  <option value = "${genre.key}">${genre.value}</option>
+		  	</c:forEach>
+		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
+		  	<option value = "other">${other}</option>
 		</select>
 		<p id = "newGenre"></p>
-		<select id="countries" name= "country"  multiple>
+		<select id="countries" name= "country" onchange="newSelects('countries','country','newCountry')" multiple>
 			<c:forEach var="country" items = "${countries}">
-		  	  <option value = "${country}">${country}</option>
+		  	  <option value = "${country.key}">${country.value}</option>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
-		  	<option value = "other" onclick="newSelects('countries','country','newCountry')">${other}</option>
+		  	<option value = "other">${other}</option>
 		</select>
 		<p id = "newCountry"></p>
 		<fmt:message bundle="${loc}" key="local.reset" var= "reset"/>
@@ -83,47 +100,8 @@
 	<p>
 		<fmt:message bundle="${loc}" key="local.footer.contact"/> <a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
 	</p>
-	</footer> 
+	</footer>
+	<script src="text-${sessionScope.local}.js"></script>	
+	<script src="editMovie.js"></script> 
 </body>
-<script>
-function newSelect(x,y,z) {
-   i = document.getElementById(x).selectedIndex;
-   l = document.getElementById(x).length;
-   var newInput = document.getElementById(y);
-   if(i==(l-1)&&!newInput){
-         Add(y,z);
-         
-    }
-    else{
-    	Delete(y,z)
-    }
-}
-
-function newSelects(x,y,z) {
-	   i = document.getElementById(x).selectedIndex;
-	   l = document.getElementById(x).length;
-	   var newInput = document.getElementById(y);
-	   if(i==(l-1)&&!newInput){
-	         Add(y,z);
-	         
-	    }
-	}
-
-function Add(y,z) {
-	var demo = document.getElementById(z);
-    var newInput = document.createElement("INPUT");
-    newInput.setAttribute("type", "text");
-    newInput.setAttribute("id", y);
-	newInput.setAttribute("autocomplete", "off");
-    demo.appendChild(newInput);
-}
-function Delete(x,z) {
-    document.getElementById(z).innerHTML = "";
-	var demo = document.getElementById(z);
-    var newInput = document.getElementById(y);
-	if (newInput.parentNode) {
-		demo.removeChild(newInput);
-	}
-}
-</script>
 </html>

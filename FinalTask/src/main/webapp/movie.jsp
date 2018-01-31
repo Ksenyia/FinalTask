@@ -1,3 +1,4 @@
+
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="UTF-8" isELIgnored="false"%>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -25,18 +26,16 @@
 	</h1>
 	<nav>
 			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
-			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="login.jsp"><fmt:message bundle="${loc}" key="local.login"/></a>|
 			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 	<div class="dropdown">
 		<fmt:message bundle="${loc}" key="local"/> <br />
 		<div class="dropdown-content">
-			<a href="<c:url value="Controller?command=local"> 
-			<c:param name="local" value="ru"/>
-			<c:param name="page" value="path.page.movie"/></c:url>">
+			<a href="<c:url value="Controller?command=movie"> 
+			<c:param name="local" value="ru"/></c:url>">
 			<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-			<a href="<c:url value="Controller?command=local"> 
+			<a href="<c:url value="Controller?command=movie"> 
 			<c:param name="local" value="en"/>
-			<c:param name="page" value="path.page.movie"/>
 			</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 		</div>
 	</div>
@@ -44,10 +43,10 @@
 	</header>
 	<article>
 	<h1 class="head"><jsp:getProperty property="title" name="movie"/></h1>
-	<c:set var="movieId" scope="request" value="${movie.getId()}" />
+	<c:set var="movieId" scope="session" value="${movie.getId()}" />
 	<p><jsp:getProperty property="title" name="movie"/></p>
 	<p><jsp:getProperty property="type" name="movie"/></p>
-	<p><jsp:getProperty property="year" name="movie"/></p>
+
 	<p><jsp:getProperty property="rating" name="movie"/></p>
 	<p><jsp:getProperty property="director" name="movie"/></p>
 	<p><jsp:getProperty property="discription" name="movie"/></p>
@@ -61,9 +60,8 @@
 	</form>
 		<mytag:review reviews="${map}"/>
 	<form action="Controller" method="post">
-		<input type="hidden" name="command" value="reviw" />
-		<input type="hidden" name="button" value="Register" />
-		<input type="text" name="review" value =""/><br/>
+		<input type="hidden" name="command" value="sendReview" />
+		<textarea rows="5" cols="15" name="review"></textarea>
 		<fmt:message bundle="${loc}" key="local.review" var= "review"/>
 		<input type="submit" name="button" value="${review}"  /><br />
 	</form>

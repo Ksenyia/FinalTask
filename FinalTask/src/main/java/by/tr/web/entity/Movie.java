@@ -1,7 +1,7 @@
 package by.tr.web.entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Movie {
 
@@ -43,8 +43,8 @@ public class Movie {
 		return year;
 	}
 	
-	public void setYear(Date year) {
-		this.year = year;
+	public void setYear(Date date) {
+		this.year = date;
 	}
 	
 	public String getDirector() {

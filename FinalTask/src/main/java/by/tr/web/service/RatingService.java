@@ -33,4 +33,10 @@ public class RatingService {
 		}
 		return 0;
 	}
+	
+	public boolean isRatingSetted(int idFilm, int idUser){
+		RatingDAO ratingDAO = new RatingDAO();
+		return ratingDAO.isRatingSetted(idFilm, idUser);
+	
+	}
 }

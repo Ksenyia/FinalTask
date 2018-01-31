@@ -67,6 +67,21 @@ public enum CommandEnum {
 		{
 			this.command = new SendChangesCommand();
 		}
+	},
+	DELETE {
+		{
+			this.command = new DeleteCommand();
+		}
+	},
+	SENDREVIEW {
+		{
+			this.command = new SendReview();
+		}
+	},
+	SENDADD {
+		{
+				this.command = new SendAddCommand();
+		}
 	};
 	ActionCommand command;
 	public ActionCommand getCurrentCommand() {

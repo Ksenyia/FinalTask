@@ -1,4 +1,4 @@
-package by.tr.web.controller;
+package by.tr.web.controller.filter;
 
 import java.io.IOException;
 import javax.servlet.Filter;
@@ -11,26 +11,21 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
-
-import by.tr.web.entity.User;
+import by.tr.web.controller.ConfigurationManager;
+import by.tr.web.controller.command.CommandEnum;
 
 /**
- * Servlet Filter implementation class Rating
+ * Servlet Filter implementation class LogOutFilter
  */
-public class RatingFilter implements Filter {
-
-    private static final String RATING = "rating";
-	private static final String USER = "user";
+public class LogOutFilter implements Filter {
+	
 	private static final String PATH_PAGE_LOGIN = "path.page.login";
 	private static final String COMMAND = "command";
-	/**
+
+    /**
      * Default constructor. 
      */
-	private static final Logger log = LogManager.getLogger(RatingFilter.class); 
-	
-    public RatingFilter() {
+    public LogOutFilter() {
         // TODO Auto-generated constructor stub
     }
 
@@ -48,12 +43,19 @@ public class RatingFilter implements Filter {
 
 		String action = ((HttpServletRequest)request).getParameter(COMMAND);
 		HttpSession session = ((HttpServletRequest) request).getSession(true);
-		log.info("action "+action);
 		String page = ConfigurationManager.getProperty(PATH_PAGE_LOGIN);
-		User user = (User) session.getAttribute(USER);
-		boolean accessFlag = user!=null && user.isAccessFlag();
-		if (RATING.equals(action) && !accessFlag) {
-			System.out.println(accessFlag);
+		
+		boolean commandFlag;
+		if(action!=null){
+		CommandEnum currentEnum = CommandEnum.valueOf(action.toUpperCase());
+		commandFlag = currentEnum.equals(CommandEnum.LOGOUT);
+		}
+		else{
+			commandFlag = false;
+		}
+		
+		if (commandFlag) {
+			session.invalidate();
 			RequestDispatcher dispatcher = request.getServletContext().getRequestDispatcher(page);
 			dispatcher.forward(request, response);
 		}

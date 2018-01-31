@@ -1,17 +1,19 @@
 package by.tr.web.controller.command;
 
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 import by.tr.web.controller.ActionCommand;
 import by.tr.web.controller.ConfigurationManager;
 import by.tr.web.controller.MessageManager;
 import by.tr.web.controller.SessionRequestContent;
+import by.tr.web.entity.Movie;
 import by.tr.web.entity.User;
+import by.tr.web.service.AuthorizationService;
+import by.tr.web.service.MovieService;
 
 public class LoginCommand implements ActionCommand {
 	
-	private static final String ERROR_LOGIN_PASS_MESSAGE = "errorLoginPassMessage";
 	private static final String MESSAGE_LOGIN_ERROR = "message.loginerror";
 	private static final String PATH_PAGE_REGISTER = "path.page.register";
 	private static final String PATH_PAGE_LOGIN = "path.page.login";
@@ -19,19 +21,26 @@ public class LoginCommand implements ActionCommand {
 	private static final String REGISTER_BUTTON = "Register";
 	private static final String LOGIN_BUTTON = "login";
 
-	public String execute(HttpServletRequest request) {
+	public String execute(SessionRequestContent content) {
 		String page = null;
-		SessionRequestContent content = new SessionRequestContent();
-		String button = content.extractButton(request);
+		content.insertLocal();
+		String button = content.extractButton();
 		if((button!=null)&&button.equals(LOGIN_BUTTON)){
-			User user = content.extractAuthorizedUser(request);
+			User user = content.extractAuthorizedUser();
+			AuthorizationService authorizationService = new AuthorizationService();
+			user = authorizationService.login(user.getLogin(),user.getPassword());	
 			if(user!=null){
-				content.insertMovies(request);
-				content.insertUsers(request, user);
+				String language = content.extractLocal();
+				
+				MovieService catalog = new MovieService();
+				List<Movie> movies = catalog.getMovies(language);
+				content.insertMovies(movies);
+				
+				content.insertUser(user);
 				page = ConfigurationManager.getProperty(PATH_PAGE_MAIN);
 			}
 			else{
-				request.setAttribute(ERROR_LOGIN_PASS_MESSAGE,MessageManager.getProperty(MESSAGE_LOGIN_ERROR));
+				content.insertMessage(MessageManager.getProperty(MESSAGE_LOGIN_ERROR));
 				page = ConfigurationManager.getProperty(PATH_PAGE_LOGIN);
 			}
 		}
@@ -39,6 +48,6 @@ public class LoginCommand implements ActionCommand {
 			page = ConfigurationManager.getProperty(PATH_PAGE_REGISTER);
 		}
 		return page;
-	}
+	} 
 
 }

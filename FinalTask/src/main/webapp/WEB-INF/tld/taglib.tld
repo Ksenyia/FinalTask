@@ -8,7 +8,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/ web-jsptaglibrary_2_0.xsd" 
 
 <tag>
 <name> rating </name>
-<tag-class>by.tr.web.controller.StatusTag</tag-class>
+<tag-class>by.tr.web.controller.tag.StatusTag</tag-class>
 <body-content> empty </body-content>
 <attribute>
 <name> status </name>
@@ -19,7 +19,7 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/ web-jsptaglibrary_2_0.xsd" 
 
 <tag>
 <name> review </name>
-<tag-class>by.tr.web.controller.ReviewTag</tag-class>
+<tag-class>by.tr.web.controller.tag.ReviewTag</tag-class>
 <body-content> empty </body-content>
 <attribute>
 <name> reviews </name>

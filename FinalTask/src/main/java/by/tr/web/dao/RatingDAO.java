@@ -17,14 +17,14 @@ public class RatingDAO {
 	private static final String INSERT = "INSERT INTO movie_rating.rating (film_id_film, users_id_user, rating) VALUES (?, ?, ?);";
 	private static final String SELECT_COUNT_RATING = "SELECT COUNT(rating) as count  FROM movie_rating.rating where film_id_film = ?;";
 	private static final String SELECT_AVG_RATING = "SELECT AVG(rating) as rating FROM movie_rating.rating where film_id_film = ?;";
+	private static final String SELECT_RATING = "SELECT rating From rating where users_id_user = ? and film_id_film = ?;";
 
 	public boolean setRating(int idUser,int rating, int idFilm){
 		PreparedStatement preparedStatement = null;
-	    String insert = INSERT;
 	    try {
 	        ConnectionPool pool = ConnectionPool.getInstance();
 	        Connection connection = pool.takeConnection();
-			preparedStatement = connection.prepareStatement(insert,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement = connection.prepareStatement(INSERT,Statement.RETURN_GENERATED_KEYS);
 		    preparedStatement.setInt(ID_FILM, idFilm);
 		    preparedStatement.setInt(ID_USER, idUser);
 		    preparedStatement.setInt(RATING, rating);
@@ -82,6 +82,31 @@ public class RatingDAO {
 			e.printStackTrace();
 		}
 		return 0;
+	}
+	public boolean isRatingSetted(int idFilm, int idUser){
+		PreparedStatement preparedStatement = null;
+	    try {
+	        ConnectionPool pool = ConnectionPool.getInstance();
+	        Connection connection = pool.takeConnection();
+			preparedStatement = connection.prepareStatement(SELECT_RATING,Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setInt(1, idUser);
+		    preparedStatement.setInt(2, idFilm);
+		    ResultSet rs = preparedStatement.executeQuery();
+			if(rs.next()) {
+			    return true;
+			}
+			else{
+				rs.close();
+				return false;
+			}
+			//connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ConnectionPoolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return true;
 	}
 
 }

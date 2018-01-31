@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 
 import by.tr.web.dao.connection.pool.ConnectionPool;
@@ -38,5 +39,23 @@ public class ReviewDAO {
 			e.printStackTrace();
 		}
 		return reviews;
+	}
+	
+	public void addReview(String review,int idMovie,int idUser ){
+		PreparedStatement preparedStatement = null;
+	    try {
+	        ConnectionPool pool = ConnectionPool.getInstance();
+	        Connection connection = pool.takeConnection();
+			preparedStatement = connection.prepareStatement("INSERT INTO `movie_rating`.`rating` (`film_id_film`, `users_id_user`, `review`) VALUES (?, ?, ?);",Statement.RETURN_GENERATED_KEYS);
+		    preparedStatement.setInt(1, idMovie);
+		    preparedStatement.setInt(2, idUser);
+		    preparedStatement.setString(3, review);
+		    preparedStatement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ConnectionPoolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

@@ -10,7 +10,7 @@ import by.tr.web.entity.User;
 import by.tr.web.service.MovieService;
 import by.tr.web.service.ReviewService;
 
-public class SendChangesCommand implements ActionCommand {
+public class SendAddCommand implements ActionCommand {
 	
 	private static final String PATH_PAGE_MOVIE = "path.page.movie";
 
@@ -31,12 +31,13 @@ public class SendChangesCommand implements ActionCommand {
 		HashMap<String, String> newCountries = content.extractNewCountries();
 		
 		MovieService movieService = new MovieService();
-		movieService.setMovie(movieRU, "ru");
-		movieService.setMovie(movieEN, "en");
+		movieService.addNewMovie(movieRU, "ru");
+		movieService.addNewMovie(movieEN, "en");
 		movieService.updateGenre(genreIDs, idMovie);
 		movieService.updateCountry(countryIDs, idMovie);
-	
+		//////
 		movieService.addNewGenres(newGenres, idMovie);
+		//////
 		movieService.addNewCountries(newCountries, idMovie);
 		Movie movie = new Movie();
 		if("ru".equalsIgnoreCase(language)){

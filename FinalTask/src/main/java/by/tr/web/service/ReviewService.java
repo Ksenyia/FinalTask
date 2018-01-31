@@ -11,4 +11,9 @@ public class ReviewService {
 		ReviewDAO reviewDAO = new ReviewDAO();
 		return  reviewDAO.showReview(id);
 	}
+	
+	public void addReview(String review,int idMovie,int idUser ){
+		ReviewDAO reviewDAO = new ReviewDAO();
+		reviewDAO.addReview(review, idMovie, idUser);;
+	}
 }

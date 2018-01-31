@@ -1,4 +1,4 @@
-package by.tr.web.controller;
+package by.tr.web.controller.filter;
 
 import java.io.IOException;
 

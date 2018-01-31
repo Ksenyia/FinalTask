@@ -25,18 +25,16 @@
 		</div>
 		<nav>
 			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
-			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="login.jsp"><fmt:message bundle="${loc}" key="local.login"/></a>|
 			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 			<div class="dropdown">
 				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="<c:url value="Controller?command=local"> 
-					<c:param name="local" value="ru"/>
-					<c:param name="page" value="path.page.main"/></c:url>">
+					<a href="<c:url value="Controller?command=movies"> 
+					<c:param name="local" value="ru"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-					<a href="<c:url value="Controller?command=local"> 
+					<a href="<c:url value="Controller?command=movies"> 
 					<c:param name="local" value="en"/>
-					<c:param name="page" value="path.page.main"/>
 					</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 				</div>
 			</div>
@@ -73,6 +71,7 @@
 			<thead>
 				<tr>
 					<th><fmt:message bundle="${loc}" key="local.movie.title"/></th>
+					<th><fmt:message bundle="${loc}" key="local.movie.title"/></th>
 					<th><fmt:message bundle="${loc}" key="local.movie.year"/></th>
 					<th><fmt:message bundle="${loc}" key="local.movie.rating"/></th>
 					<th><fmt:message bundle="${loc}" key="local.movie.your.rating"/></th>
@@ -83,6 +82,11 @@
   			  <c:set var="end" scope="session" value="${11}"/>
 			  <c:forEach var="movie" items = "${movies}">
 				<tr>
+					<td>
+					<input type="checkbox" form = "deleteForm" name ="delete" value = "${movie.getId()}">
+					<input type="hidden" form = "deleteForm" name ="delete" value = "${0}">
+					</td>
+					
 					<td><a href="<c:url value="Controller?command=movie"> <c:param name="movieId" value="${movie.getId()}"/></c:url>"><c:out value = "${movie.getTitle()}"></c:out></a> </td>
 					<td>${movie.getYear()}</td>
 					<td><fmt:formatNumber value = "${movie.getRating()}" type = "number"/></td>
@@ -174,6 +178,10 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		<form id="deleteForm" action="Controller" method="post">
+			<input type="hidden" name="command" value="delete" />
+			<input type="submit" name="button" value="Delete"  /><br />
+		</form>
 		<form action="Controller" method="post">
 			<input type="hidden" name="command" value="addMovie" />
 			<fmt:message bundle="${loc}" key="local.review" var= "review"/>

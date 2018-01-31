@@ -24,16 +24,16 @@
 	</h1>
 	<nav>
 			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
-			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="login.jsp"><fmt:message bundle="${loc}" key="local.login"/></a>|
 			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 	<div class="dropdown">
 		<fmt:message bundle="${loc}" key="local"/> <br />
 		<div class="dropdown-content">
-			<a href="<c:url value="Controller?command=local"> 
+			<a href="<c:url value="Controller?command=editMovie"> 
 			<c:param name="local" value="ru"/>
 			<c:param name="page" value="path.page.movie"/></c:url>">
 			<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-			<a href="<c:url value="Controller?command=local"> 
+			<a href="<c:url value="Controller?command=editMovie"> 
 			<c:param name="local" value="en"/>
 			<c:param name="page" value="path.page.movie"/>
 			</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
@@ -43,7 +43,7 @@
 	</header>
 	<article>
 	<h1 class="head"><jsp:getProperty property="title" name="movie"/></h1>
-	<c:set var="movieId" scope="request" value="${movie.getId()}" />
+	<c:set var="movieId" scope="session" value="${movie.getId()}" />
 	<p><jsp:getProperty property="title" name="movie"/></p>
 	<p><jsp:getProperty property="type" name="movie"/></p>
 	<p><jsp:getProperty property="year" name="movie"/></p>
@@ -54,15 +54,23 @@
 	<p><jsp:getProperty property="countries" name="movie"/></p>
 	<form action="Controller" method="post">
 		<input type="hidden" name="command" value="sendChanges" />
-		<input type="hidden" name="button" value="login" />
-		<input type="text" name="title" value="${movie.getTitle()}" required/>
-		<input type="text" name="year" value="${movie.getYear()}" />
-		<input type="text" name="director" value="${movie.getDirector()}" />
-		<textarea rows="5" cols="15" name="discription">${movie.getDiscription()}</textarea>
-		<select id="types" name = "type" onclick="newSelect('types','type','newType')">
-			<c:forEach var="type" items = "${types}">
+		<p> RU tittle </p>
+		<input type="text" name="titleRU" value="${movieRU.getTitle()}" required/>
+		<p> EN tittle </p>
+		<input type="text" name="titleEN" value="${movieEN.getTitle()}"/>
+		<input type="text" name="year" value="${movieRU.getYear()}" />
+		<p> RU directore </p>
+		<input type="text" name="directorRU" value="${movieRU.getDirector()}" />
+		<p> EN directore </p>
+		<input type="text" name="directorEN" value="${movieEN.getDirector()}" />
+		<p> RU discription </p>
+		<textarea rows="5" cols="15" name="discriptionRU">${movieRU.getDiscription()}</textarea>
+		<p> EN discription </p>
+		<textarea rows="5" cols="15" name="discriptionEN">${movieEN.getDiscription()}</textarea>
+		<select id="types" name = "typeRU" onclick="newSelect('types','typeRU','newTypeRU')">
+			<c:forEach var="type" items = "${typesRU}">
 			<c:choose>
-			<c:when test="${movie.getType() eq type} ">
+			<c:when test="${movieRU.getType() eq type} ">
 		  	  <option value = "${type}" selected="selected">${type}</option>
 		  	 </c:when>
 		  	 <c:otherwise>
@@ -73,54 +81,83 @@
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
 		  	<option value = "other">${other}</option>
 		</select>
-		<p id = "newType"></p>
-		<c:set var = "size"  value = "${movie.getGenres().size()}"></c:set>
-		<select id="genres" name = "genre" multiple>
+		<p id = "newTypeRU"></p>
+				<select id="types" name = "typeEN" onclick="newSelect('types','typeEN','newTypeEN')">
+			<c:forEach var="type" items = "${typesEN}">
+			<c:choose>
+			<c:when test="${movieEN.getType() eq type} ">
+		  	  <option value = "${type}" selected="selected">${type}</option>
+		  	 </c:when>
+		  	 <c:otherwise>
+		  	 <option value = "${type}">${type}</option>
+		  	 </c:otherwise>
+		  	  </c:choose>
+		  	</c:forEach>
+		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
+		  	<option value = "other">${other}</option>
+		</select>
+		<p id = "newTypeEN"></p>
+		<c:set var = "size"  value = "${movieRU.getGenres().size()}"></c:set>
+		<select id="genres" name = "genre" onchange="newSelects('genres','genre','newGenre')" multiple>
 			<c:forEach var="genre" items = "${genres}">
 			  <c:set var = "flag"  value = "${true}"></c:set>
 			  <c:set var = "count"  value = "${0}"></c:set>
-			  <c:forEach var="movieGenre" items = "${movie.getGenres()}">
+			  <c:choose>
+			 <c:when test="${movieRU.getGenres().size()!=0}">
+			  <c:forEach var="movieGenre" items = "${movieRU.getGenres()}">
 			  <c:set var = "count"  value = "${count+1}"></c:set>
 			    <c:choose>
-			      <c:when test="${genre eq movieGenre}">
-			        <option value = "${genre}" selected="selected">${genre}</option>
+			      <c:when test="${genre.value eq movieGenre}">
+			        <option value = "${genre.key}" selected="selected">${genre.value}</option>
 			        <c:set var = "flag"  value = "${false}"></c:set>
 			      </c:when>
 			      <c:otherwise>
 			  	    <c:if test="${(count==size)&&flag}">
-		  	          <option value = "${genre}">${genre}</option>
+		  	          <option value = "${genre.key}">${genre.value}</option>
 		  	          <c:set var = "flag"  value = "${false}"></c:set>
 		  	        </c:if>
 		  	      </c:otherwise>
 		  	    </c:choose>
 		  	  </c:forEach>
+		  	  </c:when>
+		  	  <c:otherwise>
+		  	  <option value = "${genre.key}">${genre.value}</option>
+		  	  </c:otherwise>
+		  	 </c:choose>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
-		  	<option value = "other" onclick="newSelects('genres','genre','newGenre')">${other}</option>
+		  	<option value = "other">${other}</option>
 		</select>
 		<p id = "newGenre"></p>
-		<c:set var = "size"  value = "${movie.getCountries().size()}"></c:set>
-		<select id="countries" name= "country"  multiple>
+		<c:set var = "size"  value = "${movieRU.getCountries().size()}"></c:set>
+		<select id="countries" name= "country" onchange="newSelects('countries','country','newCountry')"  multiple>
 			<c:forEach var="country" items = "${countries}">
 			  <c:set var = "flag"  value = "${true}"></c:set>
 			  <c:set var = "count"  value = "${0}"></c:set>
-			<c:forEach var="movieCountry" items = "${movie.getCountries()}">
+			 <c:choose>
+			 <c:when test="${movieRU.getCountries().size()!=0}">
+			<c:forEach var="movieCountry" items = "${movieRU.getCountries()}">
 			<c:set var = "count"  value = "${count+1}"></c:set>
 			<c:choose>
-			<c:when test="${country eq movieCountry}">
+			<c:when test="${country.value eq movieCountry}">
 			<c:if test="${(count==size)&&flag}">
-			<option value = "${country}" selected="selected">${country}</option>
+			<option value = "${country.key}" selected="selected">${country.value}</option>
 			</c:if>
             <c:set var = "flag"  value = "${false}"></c:set>
 			</c:when>
 			<c:otherwise>
-			<option value = "${country}">${country}</option>
+			<option value = "${country.key}">${country.value}</option>
 			</c:otherwise>
 		  	  </c:choose>
 		  	  </c:forEach>
+		  	  </c:when>
+		  	  <c:otherwise>
+		  	  <option value = "${country.key}">${country.value}</option>
+		  	  </c:otherwise>
+		  	  </c:choose>
 		  	</c:forEach>
 		  	<fmt:message bundle="${loc}" key="local.option.other" var= "other"/>
-		  	<option value = "other" onclick="newSelects('countries','country','newCountry')">${other}</option>
+		  	<option value = "other">${other}</option>
 		</select>
 		<p id = "newCountry"></p>
 		<fmt:message bundle="${loc}" key="local.reset" var= "reset"/>
@@ -128,6 +165,7 @@
 		<fmt:message bundle="${loc}" key="local.edit" var= "edit"/>
 		<input type="submit" value="${edit}" /> 
 	</form>
+	
 	</article>
 	<footer>
 	<p><fmt:message bundle="${loc}" key="local.footer.name"/></p>
@@ -135,48 +173,7 @@
 		<fmt:message bundle="${loc}" key="local.footer.contact"/> <a href="mailto:ksenea100@gmail.com">ksenea100@gmail.com</a>.
 	</p>
 	</footer> 
+	<script src="text-${sessionScope.local}.js"></script>	
+	<script src="editMovie.js"></script>	
 </body>
-<script>
-function newSelect(x,y,z) {
-   i = document.getElementById(x).selectedIndex;
-   l = document.getElementById(x).length;
-   var newInput = document.getElementById(y);
-   if(i==(l-1)&&!newInput){
-         Add(y,z);
-         
-    }
-    else{
-    	Delete(y,z);
-    }
-}
-
-function newSelects(x,y,z) {
-	   l = document.getElementById(x).length;
-	   var newInput = document.getElementById(y);
-	   if(!newInput){
-	         Add(y,z);   
-	    }
-	   else{
-		   Delete(y,z);
-	   }
-	   
-	}
-
-function Add(y,z) {
-	var demo = document.getElementById(z);
-    var newInput = document.createElement("INPUT");
-    newInput.setAttribute("type", "text");
-    newInput.setAttribute("id", y);
-	newInput.setAttribute("autocomplete", "off");
-    demo.appendChild(newInput);
-}
-function Delete(x,z) {
-    document.getElementById(z).innerHTML = "";
-	var demo = document.getElementById(z);
-    var newInput = document.getElementById(y);
-	if (newInput.parentNode) {
-		demo.removeChild(newInput);
-	}
-}
-</script>
 </html>

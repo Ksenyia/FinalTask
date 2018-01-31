@@ -27,11 +27,10 @@
 			<div class="dropdown">
 				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="<c:url value="regigister.jsp"> 
-					<c:param name="local" value="ru"/>
-					<c:param name="page" value="path.page.register"/></c:url>">
+					<a href="<c:url value="prfile.jsp">
+					<c:param name="local" value="ru"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-					<a href="<c:url value="regigister.jsp"> 
+					<a href="<c:url value="prfile.jsp"> 
 					<c:param name="local" value="en"/>
 					<c:param name="page" value="path.page.register"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
@@ -43,26 +42,30 @@
 		<h1 class="head"><fmt:message bundle="${loc}" key="local.site.name"/></h1>
 		<form id="form" onsubmit="return validateForm()">
 			<p>First name</p>
-			<input type="text" name="fname">
+			<input type="text" name="fname" value = "${user.getName() }" >
 			<p>Last name</p>
-			<input type="text" name="lname">
+			<input type="text" name="lname" value = "${user.getSurname() }" >
 			<p><fmt:message bundle="${loc}" key="local.login"/></p>
-			<input type="text" name="usrname" title="Fill field obligatory">
+			<input type="text" name="usrname" value = "${user.getLogin() }" title="Fill field obligatory">
 			<span class="err" id="err-uname"></span>
 			<p>e-mail</p>
 			<div id="emails">
-				<input type="email" name= "email"  id="email" autocomplete="off"><span
+				<input type="email" name= "email"  id="email" value ="${user.getEmail()}" autocomplete="off"><span
 					class="err" id='emailf'></span><br>
 				<button onclick="Add()">Add</button>
 			</div>
+			<input type="hidden" name="command" value="changeProfile" />
+			<input type="submit" name="changeProfile" value="Change">
+			</form>
+			<form onsubmit="return validateForm()">
 			<p><fmt:message bundle="${loc}" key="local.password"/></p>
 			<input type="password" name="pwd1"><span class="err"
 				id="err-pwd1"></span><br>
 			<p><fmt:message bundle="${loc}" key="local.repeat.password"/></p>
 			<input type="password" name="pwd2"><span class="err"
 				id="err-pwd2"></span><br>
-				<input type="hidden" name="command" value="register" />
-				 <input type="submit" name="register" value="Register">
+				<input type="hidden" name="command" value="changePassword" />
+				<input type="submit" name="changePassword" value="Change Password">
 		</form>
 	</article>
 	<footer>

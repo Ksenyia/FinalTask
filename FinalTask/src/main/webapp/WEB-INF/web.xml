@@ -6,7 +6,7 @@
 	</welcome-file-list>
 	<filter>
 		<filter-name>LanguageFilter</filter-name>
-		<filter-class>by.tr.web.controller.LanguageFilter</filter-class>
+		<filter-class>by.tr.web.controller.filter.LanguageFilter</filter-class>
 		<init-param>
          	<param-name>active</param-name>
           	<param-value>true</param-value>
@@ -14,15 +14,40 @@
 	</filter>
 	<filter>
 		<filter-name>RatingFilter</filter-name>
-		<filter-class>by.tr.web.controller.RatingFilter</filter-class>
+		<filter-class>by.tr.web.controller.filter.RatingFilter</filter-class>
 		<init-param>
          	<param-name>active</param-name>
           	<param-value>true</param-value>
       	</init-param>
 	</filter>
 	<filter>
+		<description>
+		</description>
+		<display-name>LogOutFilter</display-name>
+		<filter-name>LogOutFilter</filter-name>
+		<filter-class>by.tr.web.controller.filter.LogOutFilter</filter-class>
+		<init-param>
+         	<param-name>active</param-name>
+          	<param-value>true</param-value>
+      	</init-param>
+	</filter>
+	<filter>
+		<description>
+		</description>
+		<display-name>AdminFilter</display-name>
+		<filter-name>AdminFilter</filter-name>
+		<filter-class>by.tr.web.controller.filter.AdminFilter</filter-class>
+		<init-param>
+         	<param-name>active</param-name>
+          	<param-value>true</param-value>
+      	</init-param>
+	</filter>
+	<filter>
+		<description>
+		</description>
+		<display-name>UserFilter</display-name>
 		<filter-name>UserFilter</filter-name>
-		<filter-class>by.tr.web.controller.UserFilter</filter-class>
+		<filter-class>by.tr.web.controller.filter.UserFilter</filter-class>
 	</filter>
 	<filter-mapping>
 		<filter-name>LanguageFilter</filter-name>
@@ -33,9 +58,17 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<filter-mapping>
-		<filter-name>UserFilter</filter-name>
-		<url-pattern>/UserFilter</url-pattern>
+		<filter-name>LogOutFilter</filter-name>
+		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+		<filter-mapping>
+		<filter-name>AdminFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+		<filter-mapping>
+			<filter-name>UserFilter</filter-name>
+			<url-pattern>/UserFilter</url-pattern>
+		</filter-mapping>
 	<servlet>
 		<description></description>
 		<display-name>Controller</display-name>

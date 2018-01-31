@@ -22,16 +22,16 @@
 		</div>
 		<nav>
 			<a class="navig" href="Controller?command=movies"><fmt:message bundle="${loc}" key="local.home"/></a>|
-			<a class="navig" href="Controller?command=login"><fmt:message bundle="${loc}" key="local.login"/></a>|
+			<a class="navig" href="login.jsp"><fmt:message bundle="${loc}" key="local.login"/></a>|
 			<a class="navig" href="Controller?command=users"><fmt:message bundle="${loc}" key="local.user"/></a>|
 			<div class="dropdown">
 				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="<c:url value="Controller?command=local"> 
+					<a href="<c:url value="Controller?command=users"> 
 					<c:param name="local" value="ru"/>
 					<c:param name="page" value="path.page.users"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-					<a href="<c:url value="Controller?command=local"> 
+					<a href="<c:url value="Controller?command=users"> 
 					<c:param name="local" value="en"/>
 					<c:param name="page" value="path.page.users"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>

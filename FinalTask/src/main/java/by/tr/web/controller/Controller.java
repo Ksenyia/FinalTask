@@ -46,9 +46,12 @@ public class Controller extends HttpServlet {
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) 
 			throws ServletException, IOException {
 		String page = null;
+		SessionRequestContent content = new SessionRequestContent();
+		content.extractValue(request);
 		ActionFactory client = new ActionFactory();
 		ActionCommand command = client.defineCommand(request);
-		page = command.execute(request);
+		page = command.execute(content);
+		content.insertValue(request);
 		log.info(page);
 		if (page != null) {
 			RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);

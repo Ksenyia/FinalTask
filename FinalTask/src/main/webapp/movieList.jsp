@@ -78,8 +78,6 @@
 				</tr>
 			</thead>
 			<tbody>
-			  <c:set var="begin" scope="session" value="${1}"/>
-  			  <c:set var="end" scope="session" value="${11}"/>
 			  <c:forEach var="movie" items = "${movies}">
 				<tr>
 					<td>
@@ -88,7 +86,7 @@
 					</td>
 					
 					<td><a href="<c:url value="Controller?command=movie"> <c:param name="movieId" value="${movie.getId()}"/></c:url>"><c:out value = "${movie.getTitle()}"></c:out></a> </td>
-					<td>${movie.getYear()}</td>
+					<td>${movie.getYear().toLocalDate().getYear()}</td>
 					<td><fmt:formatNumber value = "${movie.getRating()}" type = "number"/></td>
 					<td>
 						<div class="ratings">
@@ -188,12 +186,34 @@
 			<input type="submit" name="button" value="${review}"  /><br />
 		</form>
 		<div class="pagination">
-			<a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a>
-			<a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a>
-			<a href="#">&raquo;</a>
+			<c:set scope="session" var="pageCount" value="${pageCount}"></c:set>
+			<c:set scope="session" var="pageNumber" value="${pageNumber}"></c:set>
+			<c:if test="${pageNumber > 1}">
+			<a href="<c:url value="Controller?command=movies"> 
+					<c:param name="pageNumber" value="${pageNumber - 1}"/>
+					</c:url>">&laquo;</a>
+			</c:if>
+			<c:forEach var="i" begin="1" end="${pageCount}">
+			<c:choose>
+			<c:when test="${i eq pageNumber}">
+			<a class="active" href="<c:url value="Controller?command=movies"> 
+					<c:param name="pageNumber" value="${i}"/>
+					</c:url>">${i}</a> 
+			</c:when>
+			<c:otherwise>
+			<a href="<c:url value="Controller?command=movies"> 
+					<c:param name="pageNumber" value="${i}"/>
+					</c:url>">${i}</a>
+			</c:otherwise>
+			</c:choose>
+			</c:forEach>
+			<c:if test="${pageNumber < pageCount}">
+			<a href="<c:url value="Controller?command=movies"> 
+					<c:param name="pageNumber" value="${pageNumber + 1}"/>
+					</c:url>">&raquo;</a>
+			</c:if>
 		</div>
 	</article>
-
 	<footer>
 	<p><fmt:message bundle="${loc}" key="local.footer.name"/></p>
 	<p>

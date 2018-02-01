@@ -18,21 +18,19 @@ public class SendAddCommand implements ActionCommand {
 		String page = ConfigurationManager.getProperty(PATH_PAGE_MOVIE);
 		content.insertLocal();
 		
-		Movie movieRU = content.extractRuMovie();
-		Movie movieEN = content.extractEnMovie();
+		Movie movieRU = content.extractMovie("ru");
+		Movie movieEN = content.extractMovie("en");
 		
 		int[] genreIDs = content.extractGenres();
 		int[] countryIDs = content.extractCountries();
 		
 		String language = content.extractLocal();
-		int idMovie = content.extractMovieID();
 		
 		HashMap<String, String> newGenres = content.extractNewGenres();
 		HashMap<String, String> newCountries = content.extractNewCountries();
 		
 		MovieService movieService = new MovieService();
-		movieService.addNewMovie(movieRU, "ru");
-		movieService.addNewMovie(movieEN, "en");
+		int idMovie = movieService.addNewMovie(movieRU, movieEN);
 		movieService.updateGenre(genreIDs, idMovie);
 		movieService.updateCountry(countryIDs, idMovie);
 		//////

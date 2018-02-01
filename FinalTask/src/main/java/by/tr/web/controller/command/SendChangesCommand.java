@@ -18,8 +18,8 @@ public class SendChangesCommand implements ActionCommand {
 		String page = ConfigurationManager.getProperty(PATH_PAGE_MOVIE);
 		content.insertLocal();
 		
-		Movie movieRU = content.extractRuMovie();
-		Movie movieEN = content.extractEnMovie();
+		Movie movieRU = content.extractMovie("ru");
+		Movie movieEN = content.extractMovie("en");
 		
 		int[] genreIDs = content.extractGenres();
 		int[] countryIDs = content.extractCountries();

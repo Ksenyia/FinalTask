@@ -31,7 +31,12 @@ public class EditCommand implements ActionCommand {
 		String language = content.extractLocal();
 		
 		MovieService catalog = new MovieService();
-		List<Movie> movies = catalog.getMovies(language);
+		int pageNumber = content.extractPageNumber();
+		int pageCount = catalog.getPageCount();
+		
+		content.setPageCount(pageCount);
+		
+		List<Movie> movies = catalog.getMovies(language, pageNumber);
 		content.insertMovies(movies);
 		
 		String page  = ConfigurationManager.getProperty(PATH_PAGE_MAIN);

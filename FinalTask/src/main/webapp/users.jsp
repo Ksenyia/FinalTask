@@ -113,9 +113,30 @@
 			<input type="submit" value="submit">
 		</form>
 		<div class="pagination">
-			<a href="#">&laquo;</a> <a class="active" href="#">1</a> <a href="#">2</a>
-			<a href="#">3</a> <a href="#">4</a> <a href="#">5</a> <a href="#">6</a>
-			<a href="#">&raquo;</a>
+			<c:if test="${pageNumberUsers > 1}">
+			<a href="<c:url value="Controller?command=users"> 
+					<c:param name="pageNumberUsers" value="${pageNumberUsers - 1}"/>
+					</c:url>">&laquo;</a>
+			</c:if>
+			<c:forEach var="i" begin="1" end="${pageCountUsers}">
+			<c:choose>
+			<c:when test="${i eq pageNumberUsers}">
+			<a class="active" href="<c:url value="Controller?command=users"> 
+					<c:param name="pageNumberUsers" value="${i}"/>
+					</c:url>">${i}</a> 
+			</c:when>
+			<c:otherwise>
+			<a href="<c:url value="Controller?command=users"> 
+					<c:param name="pageNumberUsers" value="${i}"/>
+					</c:url>">${i}</a>
+			</c:otherwise>
+			</c:choose>
+			</c:forEach>
+			<c:if test="${pageNumberUsers < pageCountUsers}">
+			<a href="<c:url value="Controller?command=users"> 
+					<c:param name="pageNumberUsers" value="${pageNumberUsers + 1}"/>
+					</c:url>">&raquo;</a>
+			</c:if>
 		</div>
 	</article>
 

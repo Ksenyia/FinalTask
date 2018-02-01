@@ -16,6 +16,7 @@ import by.tr.web.entity.Movie;
 
 public class MovieDAO {
 
+	private static final int COUNT_PER_PAGE = 5;
 	private static final String INSERT_COUNTRY = "INSERT INTO country_has_films (film_id_films, country_id_country) values (?, ?);";
 	private static final String DELETE_COUNTRY_BY_FILM_ID_FILMS = "DELETE FROM country_has_films where film_id_films = ?;";
 	private static final String INSERT_GENRES = "insert into films_has_genre (films_id_films, genre_id_genre) values(?,?);";
@@ -35,7 +36,7 @@ public class MovieDAO {
 	public MovieDAO() {
 		
 	} 
-	public ArrayList<Movie> getMovies(String languge){
+	public ArrayList<Movie> getMovies(String languge, int number){
 		PreparedStatement preparedStatement = null;
 	    ResultSet rs = null;
 	    ArrayList<Movie> movies = new ArrayList<Movie>();
@@ -55,9 +56,11 @@ public class MovieDAO {
                       "left join  "+
                      "(select * from tfilms where tfilms.lang_id_lang = ?)  as ta "+
 					"using(films_id_film)) as t "+
-            "on(films_id_film=id_film)");
+            "on(films_id_film=id_film) order by films_id_film LIMIT ?, ?;");
 		    preparedStatement.setString(1, DEFAULT_LENGUAGE);
 		    preparedStatement.setString(2, languge);
+		    preparedStatement.setInt(3, number);
+			preparedStatement.setInt(4, COUNT_PER_PAGE );
 		    rs = preparedStatement.executeQuery();
 			while(rs.next()) {
 				Movie movie = getMovie(rs);
@@ -311,9 +314,11 @@ public class MovieDAO {
 		try {
 			ConnectionPool pool = ConnectionPool.getInstance();
 			Connection connection = pool.takeConnection();
-			for(int genreID : genreIDs){
-				updateGenre(idMovie, connection, genreID);
-			} 
+			if(genreIDs.length!=0){
+				for(int genreID : genreIDs){
+					updateGenre(idMovie, connection, genreID);
+				} 
+			}
 		}catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ConnectionPoolException e) {
@@ -366,8 +371,10 @@ public class MovieDAO {
         	ConnectionPool pool = ConnectionPool.getInstance();
 	        Connection connection = pool.takeConnection();
 			deleteCountries(idMovie);
-			for(int countryIDs : countriesIDs){
-				updateCountry(idMovie, connection, countryIDs);
+			if(countriesIDs.length!=0){
+				for(int countryIDs : countriesIDs){
+					updateCountry(idMovie, connection, countryIDs);
+				}
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -460,10 +467,11 @@ public class MovieDAO {
 		preparedStatement.setString(3, country);
 		preparedStatement.executeUpdate();
 	}
-	public void addNewMovie(Movie movie, String language) {
+	public int addNewMovie(Movie movieRU, Movie movieEN) {
 		Integer year = null;
-		if(movie.getYear()!=null){
-			year = movie.getYear().toLocalDate().getYear();
+		int movieID = 1;
+		if(movieRU.getYear()!=null){
+			year = movieRU.getYear().toLocalDate().getYear();
 		}
 		PreparedStatement preparedStatement = null;
 	    try {
@@ -477,28 +485,34 @@ public class MovieDAO {
 			}
 		    preparedStatement.executeUpdate();
 		    
-		    preparedStatement = connection.prepareStatement("SELECT COUNT(films.id_film) as count  FROM films;");
+		    preparedStatement = connection.prepareStatement("SELECT MAX(id_film) as id FROM movie_rating.films;");
 		    ResultSet rs = preparedStatement.executeQuery();
-		    int movieID = 1;
 		    if(rs.next()){
-		    	movieID = rs.getInt("count");
+		    	movieID = rs.getInt("id");
 		    }
 		    rs.close();
-		    
-		    preparedStatement = connection.prepareStatement("INSERT INTO `movie_rating`.`tfilms` (`lang_id_lang`, `films_id_film`, `ttitle`, `ttype`, `tdirector`, `tdescription`) VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
-		    preparedStatement.setString(1, language);
-		    preparedStatement.setInt(2, movieID);
-		    preparedStatement.setString(3, movie.getTitle());
-		    preparedStatement.setString(4, movie.getType());
-		    preparedStatement.setString(5, movie.getDirector());
-		    preparedStatement.setString(6, movie.getDiscription());
-		    preparedStatement.executeUpdate();
+		    String langaugeRU = "ru";
+		    String langaugeEN = "en";
+		    addNewMovie(movieRU, movieID, connection, langaugeRU);
+		    addNewMovie(movieEN, movieID, connection, langaugeEN);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} catch (ConnectionPoolException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	    return movieID;
+	}
+	private void addNewMovie(Movie movie, int movieID, Connection connection, String langauge) throws SQLException {
+		PreparedStatement preparedStatement;
+		preparedStatement = connection.prepareStatement("INSERT INTO `movie_rating`.`tfilms` (`lang_id_lang`, `films_id_film`, `ttitle`, `ttype`, `tdirector`, `tdescription`) VALUES (?, ?, ?, ?, ?, ?);", Statement.RETURN_GENERATED_KEYS);
+		preparedStatement.setString(1, langauge);
+		preparedStatement.setInt(2, movieID);
+		preparedStatement.setString(3, movie.getTitle());
+		preparedStatement.setString(4, movie.getType());
+		preparedStatement.setString(5, movie.getDirector());
+		preparedStatement.setString(6, movie.getDiscription());
+		preparedStatement.executeUpdate();
 	}
 
 	public void deleteMovies(int idMovie) {
@@ -515,5 +529,24 @@ public class MovieDAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	public int getEntryCount() {
+		int count = 0;
+	    try {
+	        ConnectionPool pool = ConnectionPool.getInstance();
+	        Connection connection = pool.takeConnection();
+	        PreparedStatement preparedStatement = connection.prepareStatement("SELECT COUNT(id_film) as count FROM movie_rating.films;");
+		    ResultSet rs = preparedStatement.executeQuery();
+		    if(rs.next()){
+		    	count = rs.getInt("count");
+		    }
+		    rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (ConnectionPoolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return count;
 	}
 }

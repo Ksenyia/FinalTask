@@ -26,11 +26,11 @@
 	<div class="dropdown">
 		<fmt:message bundle="${loc}" key="local"/> <br />
 		<div class="dropdown-content">
-			<a href="<c:url value="login.jsp"> 
+			<a href="<c:url value="Controller?command=local"> 
 			<c:param name="local" value="ru"/>
 			<c:param name="page" value="path.page.login"/></c:url>">
 			<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-			<a href="<c:url value="login.jsp"> 
+			<a href="<c:url value="Controller?command=local"> 
 			<c:param name="local" value="en"/>
 			<c:param name="page" value="path.page.login"/>
 			</c:url>"><fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>

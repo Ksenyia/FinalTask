@@ -24,8 +24,8 @@ public class AddMovieCommand implements ActionCommand {
 		HashMap<Integer, String> countries = catalogService.getCountries(language);
 		
 		content.inserGenres(genres);
-		content.insertENTypes(typesEN);
-		content.insertRUTypes(typesRU);
+		content.insertTypes(typesEN, "en");
+		content.insertTypes(typesRU, "ru");
 		content.insertCountries(countries);
 		return page;
 	}

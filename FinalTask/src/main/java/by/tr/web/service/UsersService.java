@@ -8,9 +8,16 @@ import by.tr.web.entity.User;
 
 public class UsersService {
 	
-	public List<User> getUsers() {
+	public List<User> getUsers(int pageNumber) {
         UsersDAO usersDAO =  new UsersDAO();
-        List<User> users =  usersDAO.getUsers();
+		int number = 0;
+		if(pageNumber==0){
+			number = 0;
+		}
+		else{
+			number = (pageNumber-1)*5;
+		}
+        List<User> users =  usersDAO.getUsers(number);
         return users;
 	}
 	
@@ -32,6 +39,14 @@ public class UsersService {
 		else{
 			return false;
 		}
+	}
+
+	public int getPageCount() {
+		UsersDAO usersDAO = new UsersDAO();
+		int entryCount = usersDAO.getEntryCount();
+		double convertIntToDouble = 1.0;
+		int pageCount = (int) Math.ceil( entryCount* convertIntToDouble/5);
+		return pageCount;
 	}
 
 }

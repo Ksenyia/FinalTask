@@ -27,12 +27,13 @@
 			<div class="dropdown">
 				<fmt:message bundle="${loc}" key="local"/> <br />
 				<div class="dropdown-content">
-					<a href="<c:url value="prfile.jsp">
-					<c:param name="local" value="ru"/></c:url>">
+					<a href="<c:url value="Controller?command=local">
+					<c:param name="local" value="ru"/>
+					<c:param name="page" value="path.page.profile"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.ru"/></a>
-					<a href="<c:url value="prfile.jsp"> 
+					<a href="<c:url value="Controller?command=local"> 
 					<c:param name="local" value="en"/>
-					<c:param name="page" value="path.page.register"/></c:url>">
+					<c:param name="page" value="path.page.profile"/></c:url>">
 					<fmt:message bundle="${loc}" key="local.locbutton.name.en"/></a>
 				</div>
 			</div>

@@ -26,7 +26,13 @@ public class EditMovieCommand implements ActionCommand {
 		MovieService catalogService = new MovieService();
 		Movie movieRU = catalogService.getMovie(idMovie,"ru", movies, true);
 		Movie movieEN = catalogService.getMovie(idMovie,"en", movies, true);
+		Movie movie;
 
+		if("en".equalsIgnoreCase(language)){
+			movie = movieEN;
+		}else{
+			movie = movieRU;
+		}
 		catalogService.setCountry(movieRU, "ru");
 		catalogService.setGenre(movieRU, "ru");
 		catalogService.setCountry(movieEN, "en");
@@ -37,11 +43,12 @@ public class EditMovieCommand implements ActionCommand {
 		List<String> typesRU = catalogService.getTypes("ru");
 		HashMap<Integer, String> countries = catalogService.getCountries(language);
 		
+		content.insertMovie(movie);
 		content.insertMovie(movieRU, "RU");
 		content.insertMovie(movieEN, "EN");
 		content.inserGenres(genres);
-		content.insertENTypes(typesEN);
-		content.insertRUTypes(typesRU);
+		content.insertTypes(typesEN, "en");
+		content.insertTypes(typesRU, "ru");
 		content.insertCountries(countries);
 		return page;
 	}

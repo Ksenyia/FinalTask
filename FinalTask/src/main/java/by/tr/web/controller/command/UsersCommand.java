@@ -19,7 +19,13 @@ public class UsersCommand implements ActionCommand {
 		
 		List<User> users = new ArrayList<User>();
 		UsersService usersService = new UsersService(); 
-		users = usersService.getUsers() ;
+		int pageCount = usersService.getPageCount();
+		
+		content.setPageCountUser(pageCount);
+		
+		int pageNumber = content.extractPageNumberUser();
+		
+		users = usersService.getUsers(pageNumber) ;
 		content.insertUsers(users);
 		return page;
 	}

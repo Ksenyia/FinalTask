@@ -25,7 +25,7 @@ public class MovieCommand implements ActionCommand {
 		String language = content.extractLocal();
 		
 		MovieService catalogService = new MovieService();
-		Movie movie = catalogService.getMovie(idMovie, language, movies, false);
+		Movie movie = catalogService.getMovie(idMovie, language, movies, true);
 		catalogService.setCountry(movie, language);
 		catalogService.setGenre(movie, language);
 		ReviewService catalog = new ReviewService();

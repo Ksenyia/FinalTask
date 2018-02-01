@@ -19,7 +19,12 @@ public class SearchCommand implements ActionCommand {
 		String language = content.extractLocal();
 		
 		MovieService catalog = new MovieService();
-		List<Movie> movies = catalog.getMovies(language);
+		int pageCount = catalog.getPageCount();
+		
+		content.setPageCount(pageCount);
+		
+		int pageNumber = content.extractPageNumber();
+		List<Movie> movies = catalog.getMovies(language,pageNumber );
 		content.insertMovies(movies);
 		return page;
 	}

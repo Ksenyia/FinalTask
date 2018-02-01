@@ -29,7 +29,6 @@ public class RegistrationDAO {
 		    preparedStatement.setString(3, passHashed);
 		    preparedStatement.executeUpdate();
 		    preparedStatement.close();
-		    connection.close();
 		    AuthorizationDAO authorizationDAO = new AuthorizationDAO();
 			user = authorizationDAO.login(login, passHashed);
 		} catch (SQLException e) {

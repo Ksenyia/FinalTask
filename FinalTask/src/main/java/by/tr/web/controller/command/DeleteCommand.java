@@ -16,16 +16,18 @@ public class DeleteCommand implements ActionCommand {
 		String page = ConfigurationManager.getProperty(PATH_PAGE_MAIN);	
 		content.insertLocal();
 		String language = content.extractLocal();
+		int pageNumber = content.extractPageNumber();
 		
 		ArrayList<Integer> movieIDs = content.extractDeleteMovied();
 		
-		for(int m: movieIDs){
-			System.out.println(m);
-		}
-		
 		MovieService catalog = new MovieService();
 		catalog.deleteMovie(movieIDs);
-		ArrayList<Movie> movies = catalog.getMovies(language);
+		
+		int pageCount = catalog.getPageCount();
+		
+		content.setPageCount(pageCount);
+		
+		ArrayList<Movie> movies = catalog.getMovies(language,pageNumber);
 		content.insertMovies(movies);
 		return page;
 	}

@@ -28,7 +28,13 @@ public class ServiceTest {
     @Test
     public void getMoviesTest() throws SQLException {
     	MovieService catalogService = new MovieService();
-    	List<Movie> movies = catalogService.getMovies("ru");
-        assertEquals(7,movies.get(5).getId());
+    	List<Movie> movies = catalogService.getMovies("ru", 2);
+        assertEquals(7,movies.get(1).getId());
+    }
+    @Test
+    public void getPageCount() throws SQLException {
+    	MovieService catalogService = new MovieService();
+    	int count = catalogService.getPageCount();
+        assertEquals(3,count);
     }
 }

@@ -8,15 +8,22 @@ import by.tr.web.entity.Movie;
 
 public class MovieService {
 	
-	public ArrayList<Movie> getMovies(String languge){
+	public ArrayList<Movie> getMovies(String languge, int pageNumber){
 		MovieDAO catalogDAO = new MovieDAO();
-		ArrayList<Movie> movies = catalogDAO.getMovies(languge);
+		int number = 0;
+		if(pageNumber==0){
+			number = 0;
+		}
+		else{
+			number = (pageNumber-1)*5;
+		}
+		ArrayList<Movie> movies = catalogDAO.getMovies(languge, number);
 		return movies;
 	}
 	public Movie getMovie(int id, String languge, ArrayList<Movie> movies, boolean dbFlag){
 		MovieDAO catalogDAO = new MovieDAO();
 		Movie movie;
-		if(movies==null || movies.size()==0|| dbFlag){
+		if(dbFlag || movies==null || movies.size()==0){
 			movie = catalogDAO.getMovie(id, languge);
 		}
 		else{
@@ -73,9 +80,9 @@ public class MovieService {
 		MovieDAO catalogDAO = new MovieDAO();
 		catalogDAO.addNewCountries(newCountries, idMovie);
 	}
-	public void addNewMovie(Movie movie, String language) {
+	public int addNewMovie(Movie movieRU, Movie movieEN) {
 		MovieDAO catalogDAO = new MovieDAO();
-		catalogDAO.addNewMovie(movie, language);
+		return catalogDAO.addNewMovie(movieRU, movieEN);
 	}
 	
 	public void deleteMovie(ArrayList<Integer> movies) {
@@ -83,6 +90,13 @@ public class MovieService {
 		for(int idMovie : movies){
 			catalogDAO.deleteMovies(idMovie);
 		}
+	}
+	public int getPageCount() {
+		MovieDAO movieDAO = new MovieDAO();
+		int entryCount = movieDAO.getEntryCount();
+		double convertIntToDouble = 1.0;
+		int pageCount = (int) Math.ceil( entryCount* convertIntToDouble/5);
+		return pageCount;
 	}
 
 }
